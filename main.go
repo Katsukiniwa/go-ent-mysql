@@ -1,0 +1,100 @@
+package main
+
+import (
+	"context"
+	"fmt"
+	"log"
+	"net/http"
+	"time"
+
+	"github.com/katsukiniwa/kubernetes-sandbox/product/ent"
+	"github.com/katsukiniwa/kubernetes-sandbox/product/pkg/handler"
+	"github.com/katsukiniwa/kubernetes-sandbox/product/pkg/infrastructure/repository"
+	"github.com/katsukiniwa/kubernetes-sandbox/product/pkg/infrastructure/router"
+
+	"github.com/go-sql-driver/mysql"
+)
+
+func healthHandler(w http.ResponseWriter, _ *http.Request) {
+	hello := []byte("pong")
+	_, err := w.Write(hello)
+	if err != nil {
+		log.Fatal(err)
+	}
+}
+
+func rootHandler(w http.ResponseWriter, _ *http.Request) {
+	hello := []byte("Hello World!")
+	_, err := w.Write(hello)
+	if err != nil {
+		log.Fatal(err)
+	}
+}
+
+func timeHandler(w http.ResponseWriter, _ *http.Request) {
+	ct := time.Now().Format("2006-01-02 15:04:05")
+	_, err := w.Write([]byte(ct))
+	if err != nil {
+		log.Fatal(err)
+	}
+}
+
+func main() {
+	// @link https://qiita.com/masa_ito/items/66571c993e53eee37ff3
+	// ポインタの練習場所↓
+	i := 1
+	i2 := i
+	p := &i
+	fmt.Println(i)  // => 1
+	fmt.Println(i2) // => 1
+	fmt.Println(*p) // => 1
+	i2 = 99
+	fmt.Println(i)  // => 1
+	fmt.Println(i2) // => 99
+	fmt.Println(*p) // => 1
+	*p = 99
+	fmt.Println(i)  // => 99
+	fmt.Println(i2) // => 99
+	fmt.Println(*p) // => 99
+	// ポインタの練習場所↑
+
+	// @link https://zenn.dev/masamiki/articles/83a8db3f132fcb1c48f0
+	entOptions := []ent.Option{}
+	entOptions = append(entOptions, ent.Debug())
+	mc := mysql.Config{
+		User:                 "root",
+		Passwd:               "password",
+		Net:                  "tcp",
+		Addr:                 "db" + ":" + "3306",
+		DBName:               "product",
+		AllowNativePasswords: true,
+		ParseTime:            true,
+	}
+	client, err := ent.Open("mysql", mc.FormatDSN(), entOptions...)
+
+	var tr = repository.NewProductRepository(client)
+	var tc = handler.NewGetProductsHandler(tr)
+	var pc = handler.NewPurchaseHandler(tr)
+	var hr = repository.NewHistoryRepository(client)
+	var hc = handler.NewHistoryController(hr)
+	var ro = router.NewRouter(tc, pc, hc)
+	if err != nil {
+		log.Fatalf("failed opening connection to mysql: %v", err)
+	}
+	defer client.Close()
+	// Run the auto migration tool.
+	if err := client.Schema.Create(context.Background()); err != nil {
+		log.Fatalf("failed creating schema resources: %v", err)
+	}
+
+	server := http.Server{
+		Addr: ":8080",
+	}
+	http.HandleFunc("/products", ro.HandleProductsRequest)
+	http.HandleFunc("/histories", ro.HandleHistoriesRequest)
+	http.HandleFunc("/health", healthHandler)
+	http.HandleFunc("/time", timeHandler)
+	http.HandleFunc("/", rootHandler)
+
+	server.ListenAndServe()
+}

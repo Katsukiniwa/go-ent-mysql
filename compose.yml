@@ -1,0 +1,65 @@
+services:
+  db:
+    image: mysql:8.3.0
+    container_name: db
+    volumes:
+      - mysql-data:/var/lib/mysql
+      - ./docker/db/logs:/var/log/mysql
+      - ./docker/db/conf.d/my.cnf:/etc/mysql/conf.d/my.cnf
+      - ./docker/db/initdb.d:/docker-entrypoint-initdb.d
+    platform: linux/amd64
+    environment:
+      MYSQL_DATABASE: product
+      MYSQL_USER: product
+      MYSQL_PASSWORD: password
+      MYSQL_ROOT_PASSWORD: password
+      TZ: UTC
+      MYSQL_ALLOW_EMPTY_PASSWORD: 1
+    ports:
+      - "3306:3306"
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      timeout: 20s
+      retries: 10
+
+  product:
+    image: product:1.0.0
+    container_name: product
+    build:
+      dockerfile_inline: |
+        FROM golang:1.23-alpine
+
+        WORKDIR /app
+
+        COPY . .
+
+        RUN apk update && \
+          apk add git vim curl make && \
+          go mod download
+
+        RUN curl -sSfL https://raw.githubusercontent.com/cosmtrek/air/master/install.sh | sh -s -- -b $(go env GOPATH)/bin
+
+        ARG CGO_ENABLED=0
+        ARG GOOS=linux
+        ARG GOARCH=amd64
+    command: air
+    volumes:
+      - .:/app
+    tty: true
+    stdin_open: true
+    ports:
+      - "8080:8080"
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      - DB_USER = root
+      - DB_PASS = password
+      - DB_HOST = db
+      - DB_PORT = 3306
+      - DB_NAME = product
+    env_file:
+      - .env
+
+volumes:
+  mysql-data:
