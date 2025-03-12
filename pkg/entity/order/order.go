@@ -4,7 +4,7 @@ import (
 	"time"
 
 	"github.com/google/uuid"
-	"github.com/katsukiniwa/kubernetes-sandbox/product/pkg/entity/customer"
+	"github.com/katsukiniwa/go-ent-mysql/product/pkg/entity/customer"
 )
 
 type Order struct {

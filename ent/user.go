@@ -8,7 +8,7 @@ import (
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
-	"github.com/katsukiniwa/kubernetes-sandbox/product/ent/user"
+	"github.com/katsukiniwa/go-ent-mysql/product/ent/user"
 )
 
 // User is the model entity for the User schema.

@@ -5,8 +5,8 @@ import (
 	"encoding/json"
 	"net/http"
 
-	"github.com/katsukiniwa/kubernetes-sandbox/product/pkg/infrastructure/repository"
-	"github.com/katsukiniwa/kubernetes-sandbox/product/pkg/usecase/command/create_order"
+	"github.com/katsukiniwa/go-ent-mysql/product/pkg/entity/product"
+	"github.com/katsukiniwa/go-ent-mysql/product/pkg/usecase/command/create_order"
 )
 
 type PurchaseHandler interface {
@@ -14,12 +14,12 @@ type PurchaseHandler interface {
 }
 
 type purchaseHandler struct {
-	pr repository.ProductRepository
+	pr product.IProductRepository
 	c  create_order.ICreateOrderCommand
 }
 
-func NewPurchaseHandler(pr repository.ProductRepository) PurchaseHandler {
-	return &purchaseHandler{pr: pr, c: create_order.NewCreateOrderCommand()}
+func NewPurchaseHandler(pr product.IProductRepository) PurchaseHandler {
+	return &purchaseHandler{pr: pr, c: create_order.NewCreateOrderCommand(pr)}
 }
 
 func (pc *purchaseHandler) Purchase(w http.ResponseWriter, r *http.Request) {

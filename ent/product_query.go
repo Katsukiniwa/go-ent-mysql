@@ -12,8 +12,8 @@ import (
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
-	"github.com/katsukiniwa/kubernetes-sandbox/product/ent/predicate"
-	"github.com/katsukiniwa/kubernetes-sandbox/product/ent/product"
+	"github.com/katsukiniwa/go-ent-mysql/product/ent/predicate"
+	"github.com/katsukiniwa/go-ent-mysql/product/ent/product"
 )
 
 // ProductQuery is the builder for querying Product entities.

@@ -3,10 +3,10 @@
 package ent
 
 import (
-	"github.com/katsukiniwa/kubernetes-sandbox/product/ent/history"
-	"github.com/katsukiniwa/kubernetes-sandbox/product/ent/product"
-	"github.com/katsukiniwa/kubernetes-sandbox/product/ent/schema"
-	"github.com/katsukiniwa/kubernetes-sandbox/product/ent/user"
+	"github.com/katsukiniwa/go-ent-mysql/product/ent/history"
+	"github.com/katsukiniwa/go-ent-mysql/product/ent/product"
+	"github.com/katsukiniwa/go-ent-mysql/product/ent/schema"
+	"github.com/katsukiniwa/go-ent-mysql/product/ent/user"
 )
 
 // The init function reads all schema descriptors with runtime code

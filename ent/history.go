@@ -8,8 +8,8 @@ import (
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
-	"github.com/katsukiniwa/kubernetes-sandbox/product/ent/history"
-	"github.com/katsukiniwa/kubernetes-sandbox/product/ent/user"
+	"github.com/katsukiniwa/go-ent-mysql/product/ent/history"
+	"github.com/katsukiniwa/go-ent-mysql/product/ent/user"
 )
 
 // History is the model entity for the History schema.

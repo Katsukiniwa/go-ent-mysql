@@ -2,7 +2,7 @@
 
 package runtime
 
-// The schema-stitching logic is generated in github.com/katsukiniwa/kubernetes-sandbox/product/ent/runtime.go
+// The schema-stitching logic is generated in github.com/katsukiniwa/go-ent-mysql/product/ent/runtime.go
 
 const (
 	Version = "v0.14.3"                                         // Version of ent codegen.

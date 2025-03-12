@@ -5,7 +5,7 @@ package history
 import (
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
-	"github.com/katsukiniwa/kubernetes-sandbox/product/ent/predicate"
+	"github.com/katsukiniwa/go-ent-mysql/product/ent/predicate"
 )
 
 // ID filters vertices based on their ID field.

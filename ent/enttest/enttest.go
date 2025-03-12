@@ -5,12 +5,12 @@ package enttest
 import (
 	"context"
 
-	"github.com/katsukiniwa/kubernetes-sandbox/product/ent"
+	"github.com/katsukiniwa/go-ent-mysql/product/ent"
 	// required by schema hooks.
-	_ "github.com/katsukiniwa/kubernetes-sandbox/product/ent/runtime"
+	_ "github.com/katsukiniwa/go-ent-mysql/product/ent/runtime"
 
 	"entgo.io/ent/dialect/sql/schema"
-	"github.com/katsukiniwa/kubernetes-sandbox/product/ent/migrate"
+	"github.com/katsukiniwa/go-ent-mysql/product/ent/migrate"
 )
 
 type (

@@ -7,8 +7,8 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/katsukiniwa/kubernetes-sandbox/product/pkg/handler/dto"
-	"github.com/katsukiniwa/kubernetes-sandbox/product/pkg/infrastructure/repository"
+	"github.com/katsukiniwa/go-ent-mysql/product/pkg/handler/dto"
+	"github.com/katsukiniwa/go-ent-mysql/product/pkg/infrastructure/repository"
 )
 
 type HistoryController interface {

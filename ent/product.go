@@ -8,7 +8,7 @@ import (
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
-	"github.com/katsukiniwa/kubernetes-sandbox/product/ent/product"
+	"github.com/katsukiniwa/go-ent-mysql/product/ent/product"
 )
 
 // Product is the model entity for the Product schema.

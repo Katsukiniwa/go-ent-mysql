@@ -3,7 +3,7 @@ package router
 import (
 	"net/http"
 
-	"github.com/katsukiniwa/kubernetes-sandbox/product/pkg/handler"
+	"github.com/katsukiniwa/go-ent-mysql/product/pkg/handler"
 )
 
 type Router interface {

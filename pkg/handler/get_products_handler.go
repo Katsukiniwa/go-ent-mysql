@@ -5,8 +5,8 @@ import (
 	"encoding/json"
 	"net/http"
 
-	"github.com/katsukiniwa/kubernetes-sandbox/product/pkg/infrastructure/repository"
-	"github.com/katsukiniwa/kubernetes-sandbox/product/pkg/usecase/query/get_products"
+	"github.com/katsukiniwa/go-ent-mysql/product/pkg/entity/product"
+	"github.com/katsukiniwa/go-ent-mysql/product/pkg/usecase/query/get_products"
 )
 
 type GetProductsHandler interface {
@@ -14,11 +14,11 @@ type GetProductsHandler interface {
 }
 
 type getProductsHandler struct {
-	pr repository.ProductRepository
+	pr product.IProductRepository
 	q  get_products.IGetProductsQuery
 }
 
-func NewGetProductsHandler(pr repository.ProductRepository) GetProductsHandler {
+func NewGetProductsHandler(pr product.IProductRepository) GetProductsHandler {
 	return &getProductsHandler{pr: pr, q: get_products.NewGetProductsQuery(pr)}
 }
 

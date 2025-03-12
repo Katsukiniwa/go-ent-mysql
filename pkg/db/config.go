@@ -7,12 +7,12 @@ import (
 	"os"
 
 	"entgo.io/ent/dialect"
-	"github.com/katsukiniwa/kubernetes-sandbox/product/ent"
-	"github.com/katsukiniwa/kubernetes-sandbox/product/ent/migrate"
+	"github.com/katsukiniwa/go-ent-mysql/product/ent"
+	"github.com/katsukiniwa/go-ent-mysql/product/ent/migrate"
 )
 
 type EntClient struct {
-    *ent.Client
+	*ent.Client
 }
 
 func NewEntClient() *EntClient {

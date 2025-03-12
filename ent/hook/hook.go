@@ -6,7 +6,7 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/katsukiniwa/kubernetes-sandbox/product/ent"
+	"github.com/katsukiniwa/go-ent-mysql/product/ent"
 )
 
 // The HistoryFunc type is an adapter to allow the use of ordinary

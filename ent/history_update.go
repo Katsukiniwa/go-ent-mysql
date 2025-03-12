@@ -10,9 +10,9 @@ import (
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
-	"github.com/katsukiniwa/kubernetes-sandbox/product/ent/history"
-	"github.com/katsukiniwa/kubernetes-sandbox/product/ent/predicate"
-	"github.com/katsukiniwa/kubernetes-sandbox/product/ent/user"
+	"github.com/katsukiniwa/go-ent-mysql/product/ent/history"
+	"github.com/katsukiniwa/go-ent-mysql/product/ent/predicate"
+	"github.com/katsukiniwa/go-ent-mysql/product/ent/user"
 )
 
 // HistoryUpdate is the builder for updating History entities.

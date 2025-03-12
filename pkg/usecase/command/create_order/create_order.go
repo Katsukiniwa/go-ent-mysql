@@ -3,7 +3,7 @@ package create_order
 import (
 	"context"
 
-	"github.com/katsukiniwa/kubernetes-sandbox/product/pkg/infrastructure/repository"
+	"github.com/katsukiniwa/go-ent-mysql/product/pkg/entity/product"
 )
 
 type ICreateOrderCommand interface {
@@ -11,16 +11,16 @@ type ICreateOrderCommand interface {
 }
 
 type CreateOrderCommand struct {
-	productRepository repository.ProductRepository
+	pr product.IProductRepository
 }
 
-func NewCreateOrderCommand() ICreateOrderCommand {
-	return &CreateOrderCommand{}
+func NewCreateOrderCommand(pr product.IProductRepository) ICreateOrderCommand {
+	return &CreateOrderCommand{pr: pr}
 }
 
 func (c *CreateOrderCommand) Execute(ctx context.Context, params CreateOrderDTO) error {
 	for _, purchaseRequest := range params.Items {
-		product, err := c.productRepository.GetByID(ctx, purchaseRequest.ProductID)
+		product, err := c.pr.GetByID(ctx, purchaseRequest.ProductID)
 		if err != nil {
 			return err
 		}
@@ -30,7 +30,7 @@ func (c *CreateOrderCommand) Execute(ctx context.Context, params CreateOrderDTO)
 			return err
 		}
 
-		err = c.productRepository.UpdateProduct(ctx, product)
+		err = c.pr.UpdateProduct(ctx, product)
 		if err != nil {
 			return err
 		}

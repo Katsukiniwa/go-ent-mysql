@@ -3,7 +3,7 @@ package get_products
 import (
 	"context"
 
-	"github.com/katsukiniwa/kubernetes-sandbox/product/pkg/infrastructure/repository"
+	"github.com/katsukiniwa/go-ent-mysql/product/pkg/entity/product"
 )
 
 type IGetProductsQuery interface {
@@ -11,10 +11,10 @@ type IGetProductsQuery interface {
 }
 
 type getProductsQuery struct {
-	pr repository.ProductRepository
+	pr product.IProductRepository
 }
 
-func NewGetProductsQuery(pr repository.ProductRepository) IGetProductsQuery {
+func NewGetProductsQuery(pr product.IProductRepository) IGetProductsQuery {
 	return &getProductsQuery{pr: pr}
 }
 

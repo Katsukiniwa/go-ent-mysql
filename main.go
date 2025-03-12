@@ -7,10 +7,10 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/katsukiniwa/kubernetes-sandbox/product/ent"
-	"github.com/katsukiniwa/kubernetes-sandbox/product/pkg/handler"
-	"github.com/katsukiniwa/kubernetes-sandbox/product/pkg/infrastructure/repository"
-	"github.com/katsukiniwa/kubernetes-sandbox/product/pkg/infrastructure/router"
+	"github.com/katsukiniwa/go-ent-mysql/product/ent"
+	"github.com/katsukiniwa/go-ent-mysql/product/pkg/handler"
+	"github.com/katsukiniwa/go-ent-mysql/product/pkg/infrastructure/repository"
+	"github.com/katsukiniwa/go-ent-mysql/product/pkg/infrastructure/router"
 
 	"github.com/go-sql-driver/mysql"
 )

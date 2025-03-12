@@ -1,12 +1,16 @@
 package product
 
-import "fmt"
+import (
+	"fmt"
+	"time"
+)
 
 type Product struct {
-	Id         int
-	Title      string
-	Stock      int64
-	SaleStatus SaleStatus
+	Id             int
+	Title          string
+	Stock          int64
+	SaleStatus     SaleStatus
+	PriceHistories []ProductPriceHistory
 }
 
 // 販売ステータス
@@ -26,4 +30,19 @@ func (p *Product) DecreaseStock(amount int64) error {
 		p.SaleStatus = SaleStatusSoldOut
 	}
 	return nil
+}
+
+func (p *Product) CurrentPrice(t time.Time) int64 {
+	result := int64(0)
+
+	for _, v := range p.PriceHistories {
+		if v.StartedAt.Before(t) && v.EndedAt.After(t) {
+			result = v.Price
+		}
+		if v.EndedAt.IsZero() && v.StartedAt.Before(t) {
+			result = v.Price
+		}
+	}
+
+	return result
 }

@@ -5,10 +5,10 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/katsukiniwa/kubernetes-sandbox/product/ent"
-	"github.com/katsukiniwa/kubernetes-sandbox/product/ent/history"
-	"github.com/katsukiniwa/kubernetes-sandbox/product/ent/user"
-	"github.com/katsukiniwa/kubernetes-sandbox/product/pkg/entity"
+	"github.com/katsukiniwa/go-ent-mysql/product/ent"
+	"github.com/katsukiniwa/go-ent-mysql/product/ent/history"
+	"github.com/katsukiniwa/go-ent-mysql/product/ent/user"
+	"github.com/katsukiniwa/go-ent-mysql/product/pkg/entity"
 )
 
 type HistoryRepository interface {

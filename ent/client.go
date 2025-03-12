@@ -9,15 +9,15 @@ import (
 	"log"
 	"reflect"
 
-	"github.com/katsukiniwa/kubernetes-sandbox/product/ent/migrate"
+	"github.com/katsukiniwa/go-ent-mysql/product/ent/migrate"
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect"
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
-	"github.com/katsukiniwa/kubernetes-sandbox/product/ent/history"
-	"github.com/katsukiniwa/kubernetes-sandbox/product/ent/product"
-	"github.com/katsukiniwa/kubernetes-sandbox/product/ent/user"
+	"github.com/katsukiniwa/go-ent-mysql/product/ent/history"
+	"github.com/katsukiniwa/go-ent-mysql/product/ent/product"
+	"github.com/katsukiniwa/go-ent-mysql/product/ent/user"
 
 	stdsql "database/sql"
 )

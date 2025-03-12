@@ -10,7 +10,7 @@ import (
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
-	"github.com/katsukiniwa/kubernetes-sandbox/product/ent/product"
+	"github.com/katsukiniwa/go-ent-mysql/product/ent/product"
 )
 
 // ProductCreate is the builder for creating a Product entity.

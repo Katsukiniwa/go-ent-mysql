@@ -5,27 +5,19 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/katsukiniwa/kubernetes-sandbox/product/ent"
-	"github.com/katsukiniwa/kubernetes-sandbox/product/pkg/entity/product"
+	"github.com/katsukiniwa/go-ent-mysql/product/ent"
+	"github.com/katsukiniwa/go-ent-mysql/product/pkg/entity/product"
 )
 
-type ProductRepository interface {
-	GetProducts(ctx context.Context) ([]product.Product, error)
-	GetByID(ctx context.Context, id int) (*product.Product, error)
-	InsertProduct(ctx context.Context, title string) error
-	UpdateProduct(ctx context.Context, product *product.Product) error
-	DeleteProduct(ctx context.Context, id int) error
-}
-
-type productRepository struct {
+type ProductRepository struct {
 	client *ent.Client
 }
 
-func NewProductRepository(client *ent.Client) ProductRepository {
-	return &productRepository{client: client}
+func NewProductRepository(client *ent.Client) product.IProductRepository {
+	return &ProductRepository{client: client}
 }
 
-func (pr *productRepository) GetProducts(ctx context.Context) ([]product.Product, error) {
+func (pr *ProductRepository) GetProducts(ctx context.Context) ([]product.Product, error) {
 	products, err := pr.client.Product.Query().All(ctx)
 	if err != nil {
 		return nil, fmt.Errorf("failed querying products: %w", err)
@@ -42,7 +34,7 @@ func (pr *productRepository) GetProducts(ctx context.Context) ([]product.Product
 	return result, nil
 }
 
-func (pr *productRepository) GetByID(ctx context.Context, id int) (*product.Product, error) {
+func (pr *ProductRepository) GetByID(ctx context.Context, id int) (*product.Product, error) {
 	p, err := pr.client.Product.Get(ctx, id)
 	if err != nil {
 		return nil, fmt.Errorf("failed updating product: %w", err)
@@ -50,7 +42,7 @@ func (pr *productRepository) GetByID(ctx context.Context, id int) (*product.Prod
 	return &product.Product{Id: p.ID, Title: p.Title, Stock: int64(p.Stock)}, nil
 }
 
-func (pr *productRepository) UpdateProduct(ctx context.Context, p *product.Product) error {
+func (pr *ProductRepository) UpdateProduct(ctx context.Context, p *product.Product) error {
 	_, err := pr.client.Product.UpdateOneID(p.Id).SetTitle(p.Title).SetStock(int(p.Stock)).Save(ctx)
 	if err != nil {
 		return fmt.Errorf("failed updating product: %w", err)
@@ -58,7 +50,7 @@ func (pr *productRepository) UpdateProduct(ctx context.Context, p *product.Produ
 	return nil
 }
 
-func (pr *productRepository) DeleteProduct(ctx context.Context, id int) error {
+func (pr *ProductRepository) DeleteProduct(ctx context.Context, id int) error {
 	err := pr.client.Product.DeleteOneID(id).Exec(ctx)
 	if err != nil {
 		return fmt.Errorf("failed updating product: %w", err)
@@ -66,7 +58,7 @@ func (pr *productRepository) DeleteProduct(ctx context.Context, id int) error {
 	return nil
 }
 
-func (pr *productRepository) InsertProduct(ctx context.Context, title string) error {
+func (pr *ProductRepository) InsertProduct(ctx context.Context, title string) error {
 	_, err := pr.client.Product.Create().SetTitle(title).Save(ctx)
 	if err != nil {
 		return fmt.Errorf("failed updating product: %w", err)
