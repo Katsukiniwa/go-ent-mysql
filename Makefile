@@ -2,8 +2,8 @@ fmt:
 	go fmt
 .PHONY: fmt
 
-lint: fmt
-	staticcheck
+lint: lint
+	golangci-lint run
 .PHONY: lint
 
 vet: fmt
