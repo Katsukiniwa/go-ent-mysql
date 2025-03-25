@@ -12,5 +12,5 @@ vet: fmt
 
 build: vet
 	go mod tidy
-	go build -o /dev/null
+	go build
 .PHONY: build
