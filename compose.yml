@@ -53,11 +53,11 @@ services:
       db:
         condition: service_healthy
     environment:
-      - DB_USER = root
-      - DB_PASS = password
-      - DB_HOST = db
-      - DB_PORT = 3306
-      - DB_NAME = product
+      DB_USER: root
+      DB_PASS: password
+      DB_HOST: db
+      DB_PORT: 3306
+      DB_NAME: product
     env_file:
       - .env
 
