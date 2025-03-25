@@ -1,11 +1,11 @@
 package create_order
 
 type CreateOrderDTO struct {
-	CustomerID int
-	Items      []OrderItem
+	CustomerID int         `json:"customerId"`
+	Items      []OrderItem `json:"items"`
 }
 
 type OrderItem struct {
-	ProductID int
-	Quantity  int
+	ProductID int `json:"productId"`
+	Quantity  int `json:"quantity"`
 }

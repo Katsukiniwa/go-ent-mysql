@@ -25,7 +25,7 @@ func (pr *ProductRepository) GetProducts(ctx context.Context) ([]product.Product
 
 	log.Println("products: ", products)
 
-	var result []product.Product
+	result := make([]product.Product, 0, len(products))
 
 	for _, v := range products {
 		result = append(result, product.Product{Id: v.ID, Title: v.Title, Stock: int64(v.Stock)})

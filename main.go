@@ -94,14 +94,18 @@ func main() {
 	}
 
 	defer client.Close()
+
 	// Run the auto migration tool.
 	if err := client.Schema.Create(context.Background()); err != nil {
-		log.Fatalf("failed creating schema resources: %v", err)
+		log.Printf("failed creating schema resources: %v", err)
+
+		return
 	}
 
+	var to = 10 * time.Second
 	server := http.Server{
 		Addr:              ":8080",
-		ReadHeaderTimeout: 10000,
+		ReadHeaderTimeout: to,
 	}
 
 	http.HandleFunc("/products", ro.HandleProductsRequest)

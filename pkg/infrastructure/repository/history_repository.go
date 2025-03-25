@@ -34,7 +34,7 @@ func (pr *historyRepository) GetHistories(ctx context.Context) ([]entity.History
 
 	log.Println("histories: ", histories)
 
-	var result []entity.History
+	result := make([]entity.History, 0, len(histories))
 
 	for _, v := range histories {
 		result = append(result, entity.History{ID: v.ID, UserID: v.ID, Amount: v.Amount})
@@ -108,7 +108,7 @@ func (pr *historyRepository) InsertHistory(ctx context.Context, userId int, amou
 	}
 
 	// 最大出金金額を超えていたら400を返す
-	if int(ra)+amount > entity.AmountLimit {
+	if ra+amount > entity.AmountLimit {
 		log.Println("最大出金金額を超えています")
 		tx.Rollback()
 

@@ -37,5 +37,6 @@ func NewOrder(customer customer.Customer, items []OrderItem) Order {
 		Items:      items,
 		TotalPrice: total,
 		OrderedAt:  time.Now(),
+		Status:     0,
 	}
 }

@@ -4,8 +4,8 @@ linters:
   disable:
     - varnamelen
     - revive
+    - lll
+    - gosmopolitan
   exclusions:
-    rules:
-      - path: ent
-        linters:
-          - gosec
+    paths-except:
+      - "ent"

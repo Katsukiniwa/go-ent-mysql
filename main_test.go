@@ -110,6 +110,7 @@ func TestCreateHistory(t *testing.T) {
 
 func request(uID int) (*http.Request, error) {
 	ctx := context.Background()
+
 	buffer := bytes.NewBuffer(make([]byte, 0, 128))
 	if err := json.NewEncoder(buffer).Encode(History{
 		User:   uID,
