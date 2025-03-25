@@ -22,12 +22,12 @@ services:
       timeout: 20s
       retries: 10
 
-  product:
-    image: product:1.0.0
-    container_name: product
+  app:
+    image: app:1.0.0
+    container_name: app
     build:
       dockerfile_inline: |
-        FROM golang:1.23-alpine
+        FROM golang:1.24-alpine
 
         WORKDIR /app
 
