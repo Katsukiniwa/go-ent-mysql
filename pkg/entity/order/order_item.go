@@ -9,5 +9,5 @@ type OrderItem struct {
 }
 
 func (item OrderItem) Subtotal() int64 {
-	return int64(item.Quantity) * item.PurchasePrice
+	return item.Quantity * item.PurchasePrice
 }

@@ -2,8 +2,10 @@ package main
 
 import (
 	"bytes"
+	"context"
 	"database/sql"
 	"encoding/json"
+	"fmt"
 	"io"
 	"net/http"
 	"sync"
@@ -62,7 +64,12 @@ func TestCreateHistory(t *testing.T) {
 				}
 
 				// ステータスコードの確認
-				require.Truef(t, resp.StatusCode == http.StatusCreated || resp.StatusCode == http.StatusBadRequest, "unexpected status code %d", resp.StatusCode)
+				require.Truef(
+					t,
+					resp.StatusCode == http.StatusCreated || resp.StatusCode == http.StatusBadRequest,
+					"unexpected status code %d",
+					resp.StatusCode,
+				)
 
 				body, err := io.ReadAll(resp.Body)
 				if err != nil {
@@ -102,21 +109,23 @@ func TestCreateHistory(t *testing.T) {
 }
 
 func request(uID int) (*http.Request, error) {
+	ctx := context.Background()
 	buffer := bytes.NewBuffer(make([]byte, 0, 128))
 	if err := json.NewEncoder(buffer).Encode(History{
 		User:   uID,
 		Amount: 60000,
 	}); err != nil {
-		return nil, err
+		return nil, fmt.Errorf("failed to encode request body: %w", err)
 	}
 
-	req, err := http.NewRequest(
+	req, err := http.NewRequestWithContext(
+		ctx,
 		http.MethodPost,
 		baseURL+"/histories",
 		buffer,
 	)
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("failed to create request: %w", err)
 	}
 
 	req.Header.Set("Content-Type", "application/json")

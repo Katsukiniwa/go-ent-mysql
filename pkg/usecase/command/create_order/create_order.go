@@ -2,6 +2,7 @@ package create_order
 
 import (
 	"context"
+	"fmt"
 
 	"github.com/katsukiniwa/go-ent-mysql/product/pkg/entity/product"
 )
@@ -22,17 +23,17 @@ func (c *CreateOrderCommand) Execute(ctx context.Context, params CreateOrderDTO)
 	for _, purchaseRequest := range params.Items {
 		product, err := c.pr.GetByID(ctx, purchaseRequest.ProductID)
 		if err != nil {
-			return err
+			return fmt.Errorf("failed to get product: %w", err)
 		}
 
 		err = product.DecreaseStock(int64(purchaseRequest.Quantity))
 		if err != nil {
-			return err
+			return fmt.Errorf("failed to decrease stock of products: %w", err)
 		}
 
 		err = c.pr.UpdateProduct(ctx, product)
 		if err != nil {
-			return err
+			return fmt.Errorf("failed to update product: %w", err)
 		}
 	}
 

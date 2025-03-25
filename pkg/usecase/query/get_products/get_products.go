@@ -2,6 +2,7 @@ package get_products
 
 import (
 	"context"
+	"fmt"
 
 	"github.com/katsukiniwa/go-ent-mysql/product/pkg/entity/product"
 )
@@ -21,7 +22,7 @@ func NewGetProductsQuery(pr product.IProductRepository) IGetProductsQuery {
 func (q *getProductsQuery) Execute(ctx context.Context) ([]GetProductsDTO, error) {
 	products, err := q.pr.GetProducts(ctx)
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("failed to get products: %w", err)
 	}
 
 	var productsResponse []GetProductsDTO

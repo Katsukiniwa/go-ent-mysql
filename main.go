@@ -100,7 +100,8 @@ func main() {
 	}
 
 	server := http.Server{
-		Addr: ":8080",
+		Addr:              ":8080",
+		ReadHeaderTimeout: 10000,
 	}
 
 	http.HandleFunc("/products", ro.HandleProductsRequest)

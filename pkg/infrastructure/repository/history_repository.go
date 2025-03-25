@@ -63,7 +63,7 @@ func (pr *historyRepository) DeleteHistory(ctx context.Context, id int) error {
 
 func (pr *historyRepository) InsertHistory(ctx context.Context, userId int, amount int) error {
 	if _, err := pr.client.ExecContext(ctx, "SET SESSION TRANSACTION ISOLATION LEVEL READ COMMITTED"); err != nil {
-		return err
+		return fmt.Errorf("failed to set transaction isolation level: %w", err)
 	}
 
 	// 一日の最大出金金額を超えてないかチェックして出金履歴を登録するトランザクション開始
@@ -72,7 +72,7 @@ func (pr *historyRepository) InsertHistory(ctx context.Context, userId int, amou
 		log.Println("starting a transaction: %w", err)
 		tx.Rollback()
 
-		return err
+		return fmt.Errorf("failed to start a transaction: %w", err)
 	}
 
 	// 事前にuserレコードのロックを取得する
@@ -81,7 +81,7 @@ func (pr *historyRepository) InsertHistory(ctx context.Context, userId int, amou
 		log.Println("ユーザレコードのロック取得に失敗しました: %w", err)
 		tx.Rollback()
 
-		return err
+		return fmt.Errorf("failed to get user record: %w", err)
 	}
 
 	// ユーザーの合計出金金額を取得
@@ -99,7 +99,7 @@ func (pr *historyRepository) InsertHistory(ctx context.Context, userId int, amou
 		log.Println("ユーザの出金履歴の取得に失敗しました: %w", err)
 		tx.Rollback()
 
-		return err
+		return fmt.Errorf("failed to get user's history: %w", err)
 	}
 
 	ra := 0
@@ -120,7 +120,7 @@ func (pr *historyRepository) InsertHistory(ctx context.Context, userId int, amou
 		log.Println("出金履歴の登録に失敗しました: %w", err)
 		tx.Rollback()
 
-		return err
+		return fmt.Errorf("failed to insert history: %w", err)
 	}
 
 	// トランザクションコミット
@@ -128,7 +128,7 @@ func (pr *historyRepository) InsertHistory(ctx context.Context, userId int, amou
 		log.Println("ロールバックに失敗しました: %w", err)
 		tx.Rollback()
 
-		return err
+		return fmt.Errorf("failed committing a transaction: %w", err)
 	}
 
 	return nil
