@@ -3,7 +3,7 @@ module github.com/katsukiniwa/go-ent-mysql/product
 go 1.24.0
 
 require (
-	entgo.io/ent v0.14.3
+	entgo.io/ent v0.14.4
 	github.com/go-sql-driver/mysql v1.9.0
 	github.com/golangci/golangci-lint v1.64.8
 )
