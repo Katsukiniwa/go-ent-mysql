@@ -7,16 +7,16 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/go-sql-driver/mysql"
 	"github.com/katsukiniwa/go-ent-mysql/product/ent"
 	"github.com/katsukiniwa/go-ent-mysql/product/pkg/handler"
 	"github.com/katsukiniwa/go-ent-mysql/product/pkg/infrastructure/repository"
 	"github.com/katsukiniwa/go-ent-mysql/product/pkg/infrastructure/router"
-
-	"github.com/go-sql-driver/mysql"
 )
 
 func healthHandler(w http.ResponseWriter, _ *http.Request) {
 	hello := []byte("pong")
+
 	_, err := w.Write(hello)
 	if err != nil {
 		log.Fatal(err)
@@ -25,6 +25,7 @@ func healthHandler(w http.ResponseWriter, _ *http.Request) {
 
 func rootHandler(w http.ResponseWriter, _ *http.Request) {
 	hello := []byte("Hello World!")
+
 	_, err := w.Write(hello)
 	if err != nil {
 		log.Fatal(err)
@@ -33,6 +34,7 @@ func rootHandler(w http.ResponseWriter, _ *http.Request) {
 
 func timeHandler(w http.ResponseWriter, _ *http.Request) {
 	ct := time.Now().Format("2006-01-02 15:04:05")
+
 	_, err := w.Write([]byte(ct))
 	if err != nil {
 		log.Fatal(err)
@@ -48,11 +50,14 @@ func main() {
 	fmt.Println(i)  // => 1
 	fmt.Println(i2) // => 1
 	fmt.Println(*p) // => 1
+
 	i2 = 99
+
 	fmt.Println(i)  // => 1
 	fmt.Println(i2) // => 99
 	fmt.Println(*p) // => 1
 	*p = 99
+
 	fmt.Println(i)  // => 99
 	fmt.Println(i2) // => 99
 	fmt.Println(*p) // => 99
@@ -72,15 +77,22 @@ func main() {
 	}
 	client, err := ent.Open("mysql", mc.FormatDSN(), entOptions...)
 
-	var tr = repository.NewProductRepository(client)
-	var tc = handler.NewGetProductsHandler(tr)
-	var pc = handler.NewPurchaseHandler(tr)
-	var hr = repository.NewHistoryRepository(client)
-	var hc = handler.NewHistoryController(hr)
-	var ro = router.NewRouter(tc, pc, hc)
+	tr := repository.NewProductRepository(client)
+
+	tc := handler.NewGetProductsHandler(tr)
+
+	pc := handler.NewPurchaseHandler(tr)
+
+	hr := repository.NewHistoryRepository(client)
+
+	hc := handler.NewHistoryController(hr)
+
+	ro := router.NewRouter(tc, pc, hc)
+
 	if err != nil {
 		log.Fatalf("failed opening connection to mysql: %v", err)
 	}
+
 	defer client.Close()
 	// Run the auto migration tool.
 	if err := client.Schema.Create(context.Background()); err != nil {
@@ -90,6 +102,7 @@ func main() {
 	server := http.Server{
 		Addr: ":8080",
 	}
+
 	http.HandleFunc("/products", ro.HandleProductsRequest)
 	http.HandleFunc("/histories", ro.HandleHistoriesRequest)
 	http.HandleFunc("/health", healthHandler)

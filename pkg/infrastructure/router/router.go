@@ -23,9 +23,9 @@ func NewRouter(pc handler.GetProductsHandler, pp handler.PurchaseHandler, hc han
 
 func (ro *router) HandleProductsRequest(w http.ResponseWriter, r *http.Request) {
 	switch r.Method {
-	case "GET":
+	case http.MethodGet:
 		ro.pc.GetProducts(w, r)
-	case "POST":
+	case http.MethodPost:
 		ro.pp.Purchase(w, r)
 	// case "PUT":
 	// ro.pc.UpdateProduct(w, r)
@@ -38,9 +38,9 @@ func (ro *router) HandleProductsRequest(w http.ResponseWriter, r *http.Request) 
 
 func (ro *router) HandleHistoriesRequest(w http.ResponseWriter, r *http.Request) {
 	switch r.Method {
-	case "GET":
+	case http.MethodGet:
 		ro.hc.GetHistories(w, r)
-	case "POST":
+	case http.MethodPost:
 		ro.hc.PostHistory(w, r)
 	// case "PUT":
 	// ro.hc.UpdateProduct(w, r)

@@ -25,16 +25,19 @@ func NewPurchaseHandler(pr product.IProductRepository) PurchaseHandler {
 func (pc *purchaseHandler) Purchase(w http.ResponseWriter, r *http.Request) {
 	ctx := context.Background()
 	decoder := json.NewDecoder(r.Body)
+
 	var purchaseRequest create_order.CreateOrderDTO
+
 	if err := decoder.Decode(&purchaseRequest); err != nil {
 		http.Error(w, "Invalid JSON", http.StatusBadRequest)
+
 		return
 	}
 
 	err := pc.c.Execute(ctx, purchaseRequest)
-
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
+
 		return
 	}
 

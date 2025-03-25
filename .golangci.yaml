@@ -1,4 +1,11 @@
+version: "2"
 linters:
-  enable-all: true
-  disable:
-    - tenv
+  default: all
+  exclusions:
+    rules:
+      - path: ent
+        linters:
+          - gocyclo
+          - errcheck
+          - dupl
+          - gosec

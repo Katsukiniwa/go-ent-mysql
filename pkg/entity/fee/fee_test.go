@@ -39,9 +39,10 @@ func TestFee(t *testing.T) {
 	}
 
 	for _, tt := range cases {
-		tt := tt
+
 		t.Run(tt.name, func(t *testing.T) {
 			t.Parallel()
+
 			got, err := Fee(tt.in)
 			if tt.expectErr {
 				if err == nil {

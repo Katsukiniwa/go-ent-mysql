@@ -39,6 +39,7 @@ func (pr *ProductRepository) GetByID(ctx context.Context, id int) (*product.Prod
 	if err != nil {
 		return nil, fmt.Errorf("failed updating product: %w", err)
 	}
+
 	return &product.Product{Id: p.ID, Title: p.Title, Stock: int64(p.Stock)}, nil
 }
 
@@ -47,6 +48,7 @@ func (pr *ProductRepository) UpdateProduct(ctx context.Context, p *product.Produ
 	if err != nil {
 		return fmt.Errorf("failed updating product: %w", err)
 	}
+
 	return nil
 }
 
@@ -55,6 +57,7 @@ func (pr *ProductRepository) DeleteProduct(ctx context.Context, id int) error {
 	if err != nil {
 		return fmt.Errorf("failed updating product: %w", err)
 	}
+
 	return nil
 }
 
@@ -63,5 +66,6 @@ func (pr *ProductRepository) InsertProduct(ctx context.Context, title string) er
 	if err != nil {
 		return fmt.Errorf("failed updating product: %w", err)
 	}
+
 	return nil
 }

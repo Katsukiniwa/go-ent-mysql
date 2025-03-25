@@ -24,11 +24,14 @@ func NewGetProductsHandler(pr product.IProductRepository) GetProductsHandler {
 
 func (pc *getProductsHandler) GetProducts(w http.ResponseWriter, r *http.Request) {
 	ctx := context.Background()
+
 	productsResponse, err := pc.q.Execute(ctx)
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
+
 		return
 	}
+
 	output, _ := json.MarshalIndent(productsResponse, "", "\t\t")
 
 	w.Header().Set("Content-Type", "application/json")

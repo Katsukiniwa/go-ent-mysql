@@ -29,6 +29,7 @@ func NewEntClient() *EntClient {
 	if err != nil {
 		panic(fmt.Sprintf("failed opening connection to mysql: %v", err))
 	}
+
 	env := os.Getenv("ENV")
 
 	// デバッグモードを利用

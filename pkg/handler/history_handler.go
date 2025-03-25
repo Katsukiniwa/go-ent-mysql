@@ -28,9 +28,11 @@ func NewHistoryController(hr repository.HistoryRepository) HistoryController {
 
 func (hc *historyController) GetHistories(w http.ResponseWriter, r *http.Request) {
 	ctx := context.Background()
+
 	histories, err := hc.hr.GetHistories(ctx)
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
+
 		return
 	}
 
@@ -38,6 +40,7 @@ func (hc *historyController) GetHistories(w http.ResponseWriter, r *http.Request
 	for _, v := range histories {
 		historiesResponse = append(historiesResponse, dto.HistoryRequest{User: v.UserID, Amount: v.Amount})
 	}
+
 	fmt.Println(historiesResponse)
 	output, _ := json.MarshalIndent(historiesResponse, "", "\t\t")
 
@@ -49,19 +52,23 @@ func (hc *historyController) PostHistory(w http.ResponseWriter, r *http.Request)
 	ctx := context.Background()
 
 	decoder := json.NewDecoder(r.Body)
+
 	var hr dto.HistoryRequest
+
 	err := decoder.Decode(&hr)
 	if err != nil {
 		log.Printf("Failed to unmarshal request: %v", err)
 		http.Error(w, "Invalid request body", http.StatusBadRequest)
+
 		return
 	}
 
 	err = hc.hr.InsertHistory(ctx, hr.User, hr.Amount)
 	if err != nil {
-		w.WriteHeader(500)
+		w.WriteHeader(http.StatusInternalServerError)
+
 		return
 	}
 
-	w.WriteHeader(201)
+	w.WriteHeader(http.StatusCreated)
 }

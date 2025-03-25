@@ -48,6 +48,7 @@ func (pr *historyRepository) UpdateHistory(ctx context.Context, id int, amount i
 	if err != nil {
 		return fmt.Errorf("failed updating history: %w", err)
 	}
+
 	return nil
 }
 
@@ -56,6 +57,7 @@ func (pr *historyRepository) DeleteHistory(ctx context.Context, id int) error {
 	if err != nil {
 		return fmt.Errorf("failed updating history: %w", err)
 	}
+
 	return nil
 }
 
@@ -69,6 +71,7 @@ func (pr *historyRepository) InsertHistory(ctx context.Context, userId int, amou
 	if err != nil {
 		log.Println("starting a transaction: %w", err)
 		tx.Rollback()
+
 		return err
 	}
 
@@ -77,6 +80,7 @@ func (pr *historyRepository) InsertHistory(ctx context.Context, userId int, amou
 	if err != nil {
 		log.Println("ユーザレコードのロック取得に失敗しました: %w", err)
 		tx.Rollback()
+
 		return err
 	}
 
@@ -84,6 +88,7 @@ func (pr *historyRepository) InsertHistory(ctx context.Context, userId int, amou
 	var histories []struct {
 		Sum int `json:"sum"`
 	}
+
 	err = tx.Client().History.Query().ForUpdate().Where(
 		history.UserID(userId),
 	).Aggregate(
@@ -93,8 +98,10 @@ func (pr *historyRepository) InsertHistory(ctx context.Context, userId int, amou
 	if err != nil {
 		log.Println("ユーザの出金履歴の取得に失敗しました: %w", err)
 		tx.Rollback()
+
 		return err
 	}
+
 	ra := 0
 	if len(histories) > 0 {
 		ra = histories[0].Sum
@@ -104,6 +111,7 @@ func (pr *historyRepository) InsertHistory(ctx context.Context, userId int, amou
 	if int(ra)+amount > entity.AmountLimit {
 		log.Println("最大出金金額を超えています")
 		tx.Rollback()
+
 		return nil
 	}
 
@@ -111,6 +119,7 @@ func (pr *historyRepository) InsertHistory(ctx context.Context, userId int, amou
 	if err := tx.History.Create().SetAmount(amount).SetUserID(userId).Exec(ctx); err != nil {
 		log.Println("出金履歴の登録に失敗しました: %w", err)
 		tx.Rollback()
+
 		return err
 	}
 
@@ -118,6 +127,7 @@ func (pr *historyRepository) InsertHistory(ctx context.Context, userId int, amou
 	if err := tx.Commit(); err != nil {
 		log.Println("ロールバックに失敗しました: %w", err)
 		tx.Rollback()
+
 		return err
 	}
 
