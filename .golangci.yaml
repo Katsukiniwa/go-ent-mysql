@@ -6,6 +6,19 @@ linters:
     - revive
     - lll
     - gosmopolitan
+    - contextcheck
+    - cyclop
+    - depguard
+    - errcheck
+    - errchkjson
+    - exhaustruct
+    - forbidigo
+    - funlen
+    - ireturn
+    - prealloc
+    - testifylint
+    - gosec
+    - paralleltest
   exclusions:
     paths-except:
       - "ent"
