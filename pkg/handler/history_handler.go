@@ -49,7 +49,14 @@ func (hc *historyController) GetHistories(w http.ResponseWriter, r *http.Request
 	}
 
 	w.Header().Set("Content-Type", "application/json")
-	w.Write(output)
+	_, err = w.Write(output)
+
+	if err != nil {
+		log.Println("Failed to write response:", err)
+		w.WriteHeader(http.StatusInternalServerError)
+
+		return
+	}
 }
 
 func (hc *historyController) PostHistory(w http.ResponseWriter, r *http.Request) {

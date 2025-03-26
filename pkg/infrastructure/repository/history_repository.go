@@ -70,7 +70,11 @@ func (pr *historyRepository) InsertHistory(ctx context.Context, userId int, amou
 	tx, err := pr.client.Tx(ctx)
 	if err != nil {
 		log.Println("starting a transaction: %w", err)
-		tx.Rollback()
+		err = tx.Rollback()
+
+		if err != nil {
+			log.Println("ロールバックに失敗しました: %w", err)
+		}
 
 		return fmt.Errorf("failed to start a transaction: %w", err)
 	}
@@ -79,7 +83,11 @@ func (pr *historyRepository) InsertHistory(ctx context.Context, userId int, amou
 	_, err = tx.Client().User.Query().ForUpdate().Where(user.ID(userId)).Only(ctx)
 	if err != nil {
 		log.Println("ユーザレコードのロック取得に失敗しました: %w", err)
-		tx.Rollback()
+		err = tx.Rollback()
+
+		if err != nil {
+			log.Println("ロールバックに失敗しました: %w", err)
+		}
 
 		return fmt.Errorf("failed to get user record: %w", err)
 	}
@@ -97,7 +105,11 @@ func (pr *historyRepository) InsertHistory(ctx context.Context, userId int, amou
 		Scan(ctx, &histories)
 	if err != nil {
 		log.Println("ユーザの出金履歴の取得に失敗しました: %w", err)
-		tx.Rollback()
+
+		err = tx.Rollback()
+		if err != nil {
+			log.Println("ロールバックに失敗しました: %w", err)
+		}
 
 		return fmt.Errorf("failed to get user's history: %w", err)
 	}
@@ -110,7 +122,12 @@ func (pr *historyRepository) InsertHistory(ctx context.Context, userId int, amou
 	// 最大出金金額を超えていたら400を返す
 	if ra+amount > entity.AmountLimit {
 		log.Println("最大出金金額を超えています")
-		tx.Rollback()
+
+		err = tx.Rollback()
+
+		if err != nil {
+			log.Println("ロールバックに失敗しました: %w", err)
+		}
 
 		return nil
 	}
@@ -118,7 +135,11 @@ func (pr *historyRepository) InsertHistory(ctx context.Context, userId int, amou
 	// 出金履歴登録
 	if err := tx.History.Create().SetAmount(amount).SetUserID(userId).Exec(ctx); err != nil {
 		log.Println("出金履歴の登録に失敗しました: %w", err)
-		tx.Rollback()
+		err = tx.Rollback()
+
+		if err != nil {
+			log.Println("ロールバックに失敗しました: %w", err)
+		}
 
 		return fmt.Errorf("failed to insert history: %w", err)
 	}
@@ -126,7 +147,11 @@ func (pr *historyRepository) InsertHistory(ctx context.Context, userId int, amou
 	// トランザクションコミット
 	if err := tx.Commit(); err != nil {
 		log.Println("ロールバックに失敗しました: %w", err)
-		tx.Rollback()
+		err = tx.Rollback()
+
+		if err != nil {
+			log.Println("ロールバックに失敗しました: %w", err)
+		}
 
 		return fmt.Errorf("failed committing a transaction: %w", err)
 	}

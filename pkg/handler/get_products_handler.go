@@ -3,6 +3,7 @@ package handler
 import (
 	"context"
 	"encoding/json"
+	"log"
 	"net/http"
 
 	"github.com/katsukiniwa/go-ent-mysql/product/pkg/entity/product"
@@ -40,5 +41,12 @@ func (pc *getProductsHandler) GetProducts(w http.ResponseWriter, r *http.Request
 	}
 
 	w.Header().Set("Content-Type", "application/json")
-	w.Write(output)
+
+	_, err = w.Write(output)
+	if err != nil {
+		log.Println("Failed to write response:", err)
+		w.WriteHeader(http.StatusInternalServerError)
+
+		return
+	}
 }

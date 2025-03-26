@@ -9,7 +9,6 @@ linters:
     - contextcheck
     - cyclop
     - depguard
-    - errcheck
     - exhaustruct
     - forbidigo
     - funlen
