@@ -3,7 +3,6 @@ package handler
 import (
 	"context"
 	"encoding/json"
-	"fmt"
 	"log"
 	"net/http"
 
@@ -41,8 +40,13 @@ func (hc *historyController) GetHistories(w http.ResponseWriter, r *http.Request
 		historiesResponse = append(historiesResponse, dto.HistoryRequest{User: v.UserID, Amount: v.Amount})
 	}
 
-	fmt.Println(historiesResponse)
-	output, _ := json.MarshalIndent(historiesResponse, "", "\t\t")
+	output, err := json.MarshalIndent(historiesResponse, "", "\t\t")
+	if err != nil {
+		log.Println("Failed to marshal history response:", err)
+		w.WriteHeader(http.StatusInternalServerError)
+
+		return
+	}
 
 	w.Header().Set("Content-Type", "application/json")
 	w.Write(output)

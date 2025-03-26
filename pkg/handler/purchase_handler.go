@@ -41,7 +41,12 @@ func (pc *purchaseHandler) Purchase(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	output, _ := json.MarshalIndent("Success", "", "\t\t")
+	output, err := json.MarshalIndent("Success", "", "\t\t")
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+
+		return
+	}
 
 	w.Header().Set("Content-Type", "application/json")
 	w.Write(output)

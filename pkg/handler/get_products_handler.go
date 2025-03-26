@@ -32,7 +32,12 @@ func (pc *getProductsHandler) GetProducts(w http.ResponseWriter, r *http.Request
 		return
 	}
 
-	output, _ := json.MarshalIndent(productsResponse, "", "\t\t")
+	output, err := json.MarshalIndent(productsResponse, "", "\t\t")
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+
+		return
+	}
 
 	w.Header().Set("Content-Type", "application/json")
 	w.Write(output)
