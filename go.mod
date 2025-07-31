@@ -3,7 +3,7 @@ module github.com/katsukiniwa/go-ent-mysql/product
 go 1.24.0
 
 require (
-	entgo.io/ent v0.14.4
+	entgo.io/ent v0.14.5
 	github.com/go-sql-driver/mysql v1.9.3
 	github.com/golangci/golangci-lint v1.64.8
 )
@@ -189,7 +189,7 @@ require (
 )
 
 require (
-	ariga.io/atlas v0.32.0 // indirect
+	ariga.io/atlas v0.32.1-0.20250325101103-175b25e1c1b9 // indirect
 	filippo.io/edwards25519 v1.1.0 // indirect
 	github.com/agext/levenshtein v1.2.3 // indirect
 	github.com/go-openapi/inflect v0.21.2 // indirect
