@@ -197,7 +197,7 @@ require (
 	github.com/google/uuid v1.6.0
 	github.com/hashicorp/hcl/v2 v2.23.0 // indirect
 	github.com/mitchellh/go-wordwrap v1.0.1 // indirect
-	github.com/stretchr/testify v1.10.0
+	github.com/stretchr/testify v1.11.0
 	github.com/zclconf/go-cty v1.16.2 // indirect
 	golang.org/x/mod v0.24.0 // indirect
 	golang.org/x/text v0.23.0 // indirect
