@@ -105,6 +105,7 @@ func main() {
 	}
 
 	var to = 10 * time.Second
+
 	server := http.Server{
 		Addr:              ":8080",
 		ReadHeaderTimeout: to,

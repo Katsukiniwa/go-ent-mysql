@@ -50,8 +50,8 @@ func (pc *purchaseHandler) Purchase(w http.ResponseWriter, r *http.Request) {
 	}
 
 	w.Header().Set("Content-Type", "application/json")
-	_, err = w.Write(output)
 
+	_, err = w.Write(output)
 	if err != nil {
 		log.Println("Failed to write response:", err)
 		w.WriteHeader(http.StatusInternalServerError)

@@ -1,21 +1,23 @@
-package product
+package product_test
 
 import (
 	"testing"
 	"time"
+
+	"github.com/katsukiniwa/go-ent-mysql/product/pkg/entity/product"
 )
 
 func TestProduct(t *testing.T) {
 	cases := []struct {
 		name      string
 		in        time.Time
-		histories []ProductPriceHistory
+		histories []product.ProductPriceHistory
 		want      int64
 	}{
 		{
 			name: "EndedAtが存在しない価格履歴がある場合",
 			in:   time.Date(2022, time.February, 15, 8, 0, 0, 0, time.UTC),
-			histories: []ProductPriceHistory{
+			histories: []product.ProductPriceHistory{
 				{
 					ProductID: 1,
 					Price:     1000,
@@ -33,7 +35,7 @@ func TestProduct(t *testing.T) {
 		{
 			name: "StartedAtが存在しない価格履歴がある場合",
 			in:   time.Date(2022, time.January, 15, 8, 0, 0, 0, time.UTC),
-			histories: []ProductPriceHistory{
+			histories: []product.ProductPriceHistory{
 				{
 					ProductID: 1,
 					Price:     1000,
@@ -51,7 +53,7 @@ func TestProduct(t *testing.T) {
 		{
 			name: "全ての価格履歴のStartedAtとEndedAtが被っていない場合",
 			in:   time.Date(2022, time.January, 15, 8, 0, 0, 0, time.UTC),
-			histories: []ProductPriceHistory{
+			histories: []product.ProductPriceHistory{
 				{
 					ProductID: 1,
 					Price:     1000,
@@ -70,7 +72,7 @@ func TestProduct(t *testing.T) {
 		{
 			name: "価格履歴の日付に漏れがあり2022年2月1日の価格が存在しない場合",
 			in:   time.Date(2022, time.February, 1, 0, 0, 0, 0, time.UTC),
-			histories: []ProductPriceHistory{
+			histories: []product.ProductPriceHistory{
 				{
 					ProductID: 1,
 					Price:     1000,
@@ -92,7 +94,7 @@ func TestProduct(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			t.Parallel()
 
-			got := &Product{
+			got := &product.Product{
 				PriceHistories: tt.histories,
 			}
 

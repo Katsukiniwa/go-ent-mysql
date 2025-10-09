@@ -6,6 +6,8 @@ import (
 )
 
 func TestFee(t *testing.T) {
+	t.Parallel()
+
 	cases := []struct {
 		name      string
 		in        time.Time

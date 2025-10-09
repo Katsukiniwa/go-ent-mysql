@@ -94,8 +94,10 @@ func TestCreateHistory(t *testing.T) {
 	// 1ユーザあたりの最大出金金額を超えていないか確認
 	for _, uID := range []int{1, 2} {
 		var amount int
-		if err := conn.QueryRow("SELECT IFNULL(SUM(amount), 0) FROM histories WHERE user_id=?", uID).
-			Scan(&amount); err != nil {
+
+		err := conn.QueryRow("SELECT IFNULL(SUM(amount), 0) FROM histories WHERE user_id=?", uID).
+			Scan(&amount)
+		if err != nil {
 			t.Fatal(err)
 		}
 

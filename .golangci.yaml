@@ -2,21 +2,7 @@ version: "2"
 linters:
   default: all
   disable:
-    - varnamelen
-    - revive
-    - lll
-    - gosmopolitan
-    - contextcheck
-    - cyclop
-    - depguard
-    - exhaustruct
-    - forbidigo
-    - funlen
-    - ireturn
-    - prealloc
-    - testifylint
-    - gosec
-    - paralleltest
+    - wsl
   exclusions:
-    paths-except:
+    paths:
       - "ent"
