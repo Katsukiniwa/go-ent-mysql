@@ -93,16 +93,18 @@ func main() {
 		log.Fatalf("failed opening connection to mysql: %v", err)
 	}
 
-	if err := client.Close(); err != nil {
-		log.Println("Error closing client:", err)
-	}
-
 	// Run the auto migration tool.
 	if err := client.Schema.Create(context.Background()); err != nil {
 		log.Printf("failed creating schema resources: %v", err)
 
 		return
 	}
+
+	defer func() {
+		if err := client.Close(); err != nil {
+			log.Println("Error closing client:", err)
+		}
+	}()
 
 	var to = 10 * time.Second
 
@@ -117,6 +119,7 @@ func main() {
 	http.HandleFunc("/time", timeHandler)
 	http.HandleFunc("/", rootHandler)
 
+	log.Println("Server starting on :8080")
 	err = server.ListenAndServe()
 	if err != nil {
 		fmt.Println(err)
