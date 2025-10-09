@@ -23,58 +23,58 @@ type HistoryCreate struct {
 }
 
 // SetAmount sets the "amount" field.
-func (hc *HistoryCreate) SetAmount(i int) *HistoryCreate {
-	hc.mutation.SetAmount(i)
-	return hc
+func (_c *HistoryCreate) SetAmount(v int) *HistoryCreate {
+	_c.mutation.SetAmount(v)
+	return _c
 }
 
 // SetNillableAmount sets the "amount" field if the given value is not nil.
-func (hc *HistoryCreate) SetNillableAmount(i *int) *HistoryCreate {
-	if i != nil {
-		hc.SetAmount(*i)
+func (_c *HistoryCreate) SetNillableAmount(v *int) *HistoryCreate {
+	if v != nil {
+		_c.SetAmount(*v)
 	}
-	return hc
+	return _c
 }
 
 // SetUserID sets the "user_id" field.
-func (hc *HistoryCreate) SetUserID(i int) *HistoryCreate {
-	hc.mutation.SetUserID(i)
-	return hc
+func (_c *HistoryCreate) SetUserID(v int) *HistoryCreate {
+	_c.mutation.SetUserID(v)
+	return _c
 }
 
 // SetNillableUserID sets the "user_id" field if the given value is not nil.
-func (hc *HistoryCreate) SetNillableUserID(i *int) *HistoryCreate {
-	if i != nil {
-		hc.SetUserID(*i)
+func (_c *HistoryCreate) SetNillableUserID(v *int) *HistoryCreate {
+	if v != nil {
+		_c.SetUserID(*v)
 	}
-	return hc
+	return _c
 }
 
 // SetID sets the "id" field.
-func (hc *HistoryCreate) SetID(i int) *HistoryCreate {
-	hc.mutation.SetID(i)
-	return hc
+func (_c *HistoryCreate) SetID(v int) *HistoryCreate {
+	_c.mutation.SetID(v)
+	return _c
 }
 
 // SetUser sets the "user" edge to the User entity.
-func (hc *HistoryCreate) SetUser(u *User) *HistoryCreate {
-	return hc.SetUserID(u.ID)
+func (_c *HistoryCreate) SetUser(v *User) *HistoryCreate {
+	return _c.SetUserID(v.ID)
 }
 
 // Mutation returns the HistoryMutation object of the builder.
-func (hc *HistoryCreate) Mutation() *HistoryMutation {
-	return hc.mutation
+func (_c *HistoryCreate) Mutation() *HistoryMutation {
+	return _c.mutation
 }
 
 // Save creates the History in the database.
-func (hc *HistoryCreate) Save(ctx context.Context) (*History, error) {
-	hc.defaults()
-	return withHooks(ctx, hc.sqlSave, hc.mutation, hc.hooks)
+func (_c *HistoryCreate) Save(ctx context.Context) (*History, error) {
+	_c.defaults()
+	return withHooks(ctx, _c.sqlSave, _c.mutation, _c.hooks)
 }
 
 // SaveX calls Save and panics if Save returns an error.
-func (hc *HistoryCreate) SaveX(ctx context.Context) *History {
-	v, err := hc.Save(ctx)
+func (_c *HistoryCreate) SaveX(ctx context.Context) *History {
+	v, err := _c.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -82,32 +82,32 @@ func (hc *HistoryCreate) SaveX(ctx context.Context) *History {
 }
 
 // Exec executes the query.
-func (hc *HistoryCreate) Exec(ctx context.Context) error {
-	_, err := hc.Save(ctx)
+func (_c *HistoryCreate) Exec(ctx context.Context) error {
+	_, err := _c.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (hc *HistoryCreate) ExecX(ctx context.Context) {
-	if err := hc.Exec(ctx); err != nil {
+func (_c *HistoryCreate) ExecX(ctx context.Context) {
+	if err := _c.Exec(ctx); err != nil {
 		panic(err)
 	}
 }
 
 // defaults sets the default values of the builder before save.
-func (hc *HistoryCreate) defaults() {
-	if _, ok := hc.mutation.Amount(); !ok {
+func (_c *HistoryCreate) defaults() {
+	if _, ok := _c.mutation.Amount(); !ok {
 		v := history.DefaultAmount
-		hc.mutation.SetAmount(v)
+		_c.mutation.SetAmount(v)
 	}
 }
 
 // check runs all checks and user-defined validators on the builder.
-func (hc *HistoryCreate) check() error {
-	if _, ok := hc.mutation.Amount(); !ok {
+func (_c *HistoryCreate) check() error {
+	if _, ok := _c.mutation.Amount(); !ok {
 		return &ValidationError{Name: "amount", err: errors.New(`ent: missing required field "History.amount"`)}
 	}
-	if v, ok := hc.mutation.ID(); ok {
+	if v, ok := _c.mutation.ID(); ok {
 		if err := history.IDValidator(v); err != nil {
 			return &ValidationError{Name: "id", err: fmt.Errorf(`ent: validator failed for field "History.id": %w`, err)}
 		}
@@ -115,12 +115,12 @@ func (hc *HistoryCreate) check() error {
 	return nil
 }
 
-func (hc *HistoryCreate) sqlSave(ctx context.Context) (*History, error) {
-	if err := hc.check(); err != nil {
+func (_c *HistoryCreate) sqlSave(ctx context.Context) (*History, error) {
+	if err := _c.check(); err != nil {
 		return nil, err
 	}
-	_node, _spec := hc.createSpec()
-	if err := sqlgraph.CreateNode(ctx, hc.driver, _spec); err != nil {
+	_node, _spec := _c.createSpec()
+	if err := sqlgraph.CreateNode(ctx, _c.driver, _spec); err != nil {
 		if sqlgraph.IsConstraintError(err) {
 			err = &ConstraintError{msg: err.Error(), wrap: err}
 		}
@@ -130,26 +130,26 @@ func (hc *HistoryCreate) sqlSave(ctx context.Context) (*History, error) {
 		id := _spec.ID.Value.(int64)
 		_node.ID = int(id)
 	}
-	hc.mutation.id = &_node.ID
-	hc.mutation.done = true
+	_c.mutation.id = &_node.ID
+	_c.mutation.done = true
 	return _node, nil
 }
 
-func (hc *HistoryCreate) createSpec() (*History, *sqlgraph.CreateSpec) {
+func (_c *HistoryCreate) createSpec() (*History, *sqlgraph.CreateSpec) {
 	var (
-		_node = &History{config: hc.config}
+		_node = &History{config: _c.config}
 		_spec = sqlgraph.NewCreateSpec(history.Table, sqlgraph.NewFieldSpec(history.FieldID, field.TypeInt))
 	)
-	_spec.OnConflict = hc.conflict
-	if id, ok := hc.mutation.ID(); ok {
+	_spec.OnConflict = _c.conflict
+	if id, ok := _c.mutation.ID(); ok {
 		_node.ID = id
 		_spec.ID.Value = id
 	}
-	if value, ok := hc.mutation.Amount(); ok {
+	if value, ok := _c.mutation.Amount(); ok {
 		_spec.SetField(history.FieldAmount, field.TypeInt, value)
 		_node.Amount = value
 	}
-	if nodes := hc.mutation.UserIDs(); len(nodes) > 0 {
+	if nodes := _c.mutation.UserIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2O,
 			Inverse: true,
@@ -185,10 +185,10 @@ func (hc *HistoryCreate) createSpec() (*History, *sqlgraph.CreateSpec) {
 //			SetAmount(v+v).
 //		}).
 //		Exec(ctx)
-func (hc *HistoryCreate) OnConflict(opts ...sql.ConflictOption) *HistoryUpsertOne {
-	hc.conflict = opts
+func (_c *HistoryCreate) OnConflict(opts ...sql.ConflictOption) *HistoryUpsertOne {
+	_c.conflict = opts
 	return &HistoryUpsertOne{
-		create: hc,
+		create: _c,
 	}
 }
 
@@ -198,10 +198,10 @@ func (hc *HistoryCreate) OnConflict(opts ...sql.ConflictOption) *HistoryUpsertOn
 //	client.History.Create().
 //		OnConflict(sql.ConflictColumns(columns...)).
 //		Exec(ctx)
-func (hc *HistoryCreate) OnConflictColumns(columns ...string) *HistoryUpsertOne {
-	hc.conflict = append(hc.conflict, sql.ConflictColumns(columns...))
+func (_c *HistoryCreate) OnConflictColumns(columns ...string) *HistoryUpsertOne {
+	_c.conflict = append(_c.conflict, sql.ConflictColumns(columns...))
 	return &HistoryUpsertOne{
-		create: hc,
+		create: _c,
 	}
 }
 
@@ -386,16 +386,16 @@ type HistoryCreateBulk struct {
 }
 
 // Save creates the History entities in the database.
-func (hcb *HistoryCreateBulk) Save(ctx context.Context) ([]*History, error) {
-	if hcb.err != nil {
-		return nil, hcb.err
+func (_c *HistoryCreateBulk) Save(ctx context.Context) ([]*History, error) {
+	if _c.err != nil {
+		return nil, _c.err
 	}
-	specs := make([]*sqlgraph.CreateSpec, len(hcb.builders))
-	nodes := make([]*History, len(hcb.builders))
-	mutators := make([]Mutator, len(hcb.builders))
-	for i := range hcb.builders {
+	specs := make([]*sqlgraph.CreateSpec, len(_c.builders))
+	nodes := make([]*History, len(_c.builders))
+	mutators := make([]Mutator, len(_c.builders))
+	for i := range _c.builders {
 		func(i int, root context.Context) {
-			builder := hcb.builders[i]
+			builder := _c.builders[i]
 			builder.defaults()
 			var mut Mutator = MutateFunc(func(ctx context.Context, m Mutation) (Value, error) {
 				mutation, ok := m.(*HistoryMutation)
@@ -409,12 +409,12 @@ func (hcb *HistoryCreateBulk) Save(ctx context.Context) ([]*History, error) {
 				var err error
 				nodes[i], specs[i] = builder.createSpec()
 				if i < len(mutators)-1 {
-					_, err = mutators[i+1].Mutate(root, hcb.builders[i+1].mutation)
+					_, err = mutators[i+1].Mutate(root, _c.builders[i+1].mutation)
 				} else {
 					spec := &sqlgraph.BatchCreateSpec{Nodes: specs}
-					spec.OnConflict = hcb.conflict
+					spec.OnConflict = _c.conflict
 					// Invoke the actual operation on the latest mutation in the chain.
-					if err = sqlgraph.BatchCreate(ctx, hcb.driver, spec); err != nil {
+					if err = sqlgraph.BatchCreate(ctx, _c.driver, spec); err != nil {
 						if sqlgraph.IsConstraintError(err) {
 							err = &ConstraintError{msg: err.Error(), wrap: err}
 						}
@@ -438,7 +438,7 @@ func (hcb *HistoryCreateBulk) Save(ctx context.Context) ([]*History, error) {
 		}(i, ctx)
 	}
 	if len(mutators) > 0 {
-		if _, err := mutators[0].Mutate(ctx, hcb.builders[0].mutation); err != nil {
+		if _, err := mutators[0].Mutate(ctx, _c.builders[0].mutation); err != nil {
 			return nil, err
 		}
 	}
@@ -446,8 +446,8 @@ func (hcb *HistoryCreateBulk) Save(ctx context.Context) ([]*History, error) {
 }
 
 // SaveX is like Save, but panics if an error occurs.
-func (hcb *HistoryCreateBulk) SaveX(ctx context.Context) []*History {
-	v, err := hcb.Save(ctx)
+func (_c *HistoryCreateBulk) SaveX(ctx context.Context) []*History {
+	v, err := _c.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -455,14 +455,14 @@ func (hcb *HistoryCreateBulk) SaveX(ctx context.Context) []*History {
 }
 
 // Exec executes the query.
-func (hcb *HistoryCreateBulk) Exec(ctx context.Context) error {
-	_, err := hcb.Save(ctx)
+func (_c *HistoryCreateBulk) Exec(ctx context.Context) error {
+	_, err := _c.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (hcb *HistoryCreateBulk) ExecX(ctx context.Context) {
-	if err := hcb.Exec(ctx); err != nil {
+func (_c *HistoryCreateBulk) ExecX(ctx context.Context) {
+	if err := _c.Exec(ctx); err != nil {
 		panic(err)
 	}
 }
@@ -482,10 +482,10 @@ func (hcb *HistoryCreateBulk) ExecX(ctx context.Context) {
 //			SetAmount(v+v).
 //		}).
 //		Exec(ctx)
-func (hcb *HistoryCreateBulk) OnConflict(opts ...sql.ConflictOption) *HistoryUpsertBulk {
-	hcb.conflict = opts
+func (_c *HistoryCreateBulk) OnConflict(opts ...sql.ConflictOption) *HistoryUpsertBulk {
+	_c.conflict = opts
 	return &HistoryUpsertBulk{
-		create: hcb,
+		create: _c,
 	}
 }
 
@@ -495,10 +495,10 @@ func (hcb *HistoryCreateBulk) OnConflict(opts ...sql.ConflictOption) *HistoryUps
 //	client.History.Create().
 //		OnConflict(sql.ConflictColumns(columns...)).
 //		Exec(ctx)
-func (hcb *HistoryCreateBulk) OnConflictColumns(columns ...string) *HistoryUpsertBulk {
-	hcb.conflict = append(hcb.conflict, sql.ConflictColumns(columns...))
+func (_c *HistoryCreateBulk) OnConflictColumns(columns ...string) *HistoryUpsertBulk {
+	_c.conflict = append(_c.conflict, sql.ConflictColumns(columns...))
 	return &HistoryUpsertBulk{
-		create: hcb,
+		create: _c,
 	}
 }
 

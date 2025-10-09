@@ -274,8 +274,8 @@ func (c *HistoryClient) Update() *HistoryUpdate {
 }
 
 // UpdateOne returns an update builder for the given entity.
-func (c *HistoryClient) UpdateOne(h *History) *HistoryUpdateOne {
-	mutation := newHistoryMutation(c.config, OpUpdateOne, withHistory(h))
+func (c *HistoryClient) UpdateOne(_m *History) *HistoryUpdateOne {
+	mutation := newHistoryMutation(c.config, OpUpdateOne, withHistory(_m))
 	return &HistoryUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
 
@@ -292,8 +292,8 @@ func (c *HistoryClient) Delete() *HistoryDelete {
 }
 
 // DeleteOne returns a builder for deleting the given entity.
-func (c *HistoryClient) DeleteOne(h *History) *HistoryDeleteOne {
-	return c.DeleteOneID(h.ID)
+func (c *HistoryClient) DeleteOne(_m *History) *HistoryDeleteOne {
+	return c.DeleteOneID(_m.ID)
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
@@ -328,16 +328,16 @@ func (c *HistoryClient) GetX(ctx context.Context, id int) *History {
 }
 
 // QueryUser queries the user edge of a History.
-func (c *HistoryClient) QueryUser(h *History) *UserQuery {
+func (c *HistoryClient) QueryUser(_m *History) *UserQuery {
 	query := (&UserClient{config: c.config}).Query()
 	query.path = func(context.Context) (fromV *sql.Selector, _ error) {
-		id := h.ID
+		id := _m.ID
 		step := sqlgraph.NewStep(
 			sqlgraph.From(history.Table, history.FieldID, id),
 			sqlgraph.To(user.Table, user.FieldID),
 			sqlgraph.Edge(sqlgraph.M2O, true, history.UserTable, history.UserColumn),
 		)
-		fromV = sqlgraph.Neighbors(h.driver.Dialect(), step)
+		fromV = sqlgraph.Neighbors(_m.driver.Dialect(), step)
 		return fromV, nil
 	}
 	return query
@@ -423,8 +423,8 @@ func (c *ProductClient) Update() *ProductUpdate {
 }
 
 // UpdateOne returns an update builder for the given entity.
-func (c *ProductClient) UpdateOne(pr *Product) *ProductUpdateOne {
-	mutation := newProductMutation(c.config, OpUpdateOne, withProduct(pr))
+func (c *ProductClient) UpdateOne(_m *Product) *ProductUpdateOne {
+	mutation := newProductMutation(c.config, OpUpdateOne, withProduct(_m))
 	return &ProductUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
 
@@ -441,8 +441,8 @@ func (c *ProductClient) Delete() *ProductDelete {
 }
 
 // DeleteOne returns a builder for deleting the given entity.
-func (c *ProductClient) DeleteOne(pr *Product) *ProductDeleteOne {
-	return c.DeleteOneID(pr.ID)
+func (c *ProductClient) DeleteOne(_m *Product) *ProductDeleteOne {
+	return c.DeleteOneID(_m.ID)
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
@@ -556,8 +556,8 @@ func (c *UserClient) Update() *UserUpdate {
 }
 
 // UpdateOne returns an update builder for the given entity.
-func (c *UserClient) UpdateOne(u *User) *UserUpdateOne {
-	mutation := newUserMutation(c.config, OpUpdateOne, withUser(u))
+func (c *UserClient) UpdateOne(_m *User) *UserUpdateOne {
+	mutation := newUserMutation(c.config, OpUpdateOne, withUser(_m))
 	return &UserUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
 
@@ -574,8 +574,8 @@ func (c *UserClient) Delete() *UserDelete {
 }
 
 // DeleteOne returns a builder for deleting the given entity.
-func (c *UserClient) DeleteOne(u *User) *UserDeleteOne {
-	return c.DeleteOneID(u.ID)
+func (c *UserClient) DeleteOne(_m *User) *UserDeleteOne {
+	return c.DeleteOneID(_m.ID)
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
@@ -610,16 +610,16 @@ func (c *UserClient) GetX(ctx context.Context, id int) *User {
 }
 
 // QueryHistories queries the histories edge of a User.
-func (c *UserClient) QueryHistories(u *User) *HistoryQuery {
+func (c *UserClient) QueryHistories(_m *User) *HistoryQuery {
 	query := (&HistoryClient{config: c.config}).Query()
 	query.path = func(context.Context) (fromV *sql.Selector, _ error) {
-		id := u.ID
+		id := _m.ID
 		step := sqlgraph.NewStep(
 			sqlgraph.From(user.Table, user.FieldID, id),
 			sqlgraph.To(history.Table, history.FieldID),
 			sqlgraph.Edge(sqlgraph.O2M, false, user.HistoriesTable, user.HistoriesColumn),
 		)
-		fromV = sqlgraph.Neighbors(u.driver.Dialect(), step)
+		fromV = sqlgraph.Neighbors(_m.driver.Dialect(), step)
 		return fromV, nil
 	}
 	return query

@@ -22,61 +22,61 @@ type ProductCreate struct {
 }
 
 // SetStock sets the "stock" field.
-func (pc *ProductCreate) SetStock(i int) *ProductCreate {
-	pc.mutation.SetStock(i)
-	return pc
+func (_c *ProductCreate) SetStock(v int) *ProductCreate {
+	_c.mutation.SetStock(v)
+	return _c
 }
 
 // SetNillableStock sets the "stock" field if the given value is not nil.
-func (pc *ProductCreate) SetNillableStock(i *int) *ProductCreate {
-	if i != nil {
-		pc.SetStock(*i)
+func (_c *ProductCreate) SetNillableStock(v *int) *ProductCreate {
+	if v != nil {
+		_c.SetStock(*v)
 	}
-	return pc
+	return _c
 }
 
 // SetTitle sets the "title" field.
-func (pc *ProductCreate) SetTitle(s string) *ProductCreate {
-	pc.mutation.SetTitle(s)
-	return pc
+func (_c *ProductCreate) SetTitle(v string) *ProductCreate {
+	_c.mutation.SetTitle(v)
+	return _c
 }
 
 // SetNillableTitle sets the "title" field if the given value is not nil.
-func (pc *ProductCreate) SetNillableTitle(s *string) *ProductCreate {
-	if s != nil {
-		pc.SetTitle(*s)
+func (_c *ProductCreate) SetNillableTitle(v *string) *ProductCreate {
+	if v != nil {
+		_c.SetTitle(*v)
 	}
-	return pc
+	return _c
 }
 
 // SetSaleStatus sets the "sale_status" field.
-func (pc *ProductCreate) SetSaleStatus(ps product.SaleStatus) *ProductCreate {
-	pc.mutation.SetSaleStatus(ps)
-	return pc
+func (_c *ProductCreate) SetSaleStatus(v product.SaleStatus) *ProductCreate {
+	_c.mutation.SetSaleStatus(v)
+	return _c
 }
 
 // SetNillableSaleStatus sets the "sale_status" field if the given value is not nil.
-func (pc *ProductCreate) SetNillableSaleStatus(ps *product.SaleStatus) *ProductCreate {
-	if ps != nil {
-		pc.SetSaleStatus(*ps)
+func (_c *ProductCreate) SetNillableSaleStatus(v *product.SaleStatus) *ProductCreate {
+	if v != nil {
+		_c.SetSaleStatus(*v)
 	}
-	return pc
+	return _c
 }
 
 // Mutation returns the ProductMutation object of the builder.
-func (pc *ProductCreate) Mutation() *ProductMutation {
-	return pc.mutation
+func (_c *ProductCreate) Mutation() *ProductMutation {
+	return _c.mutation
 }
 
 // Save creates the Product in the database.
-func (pc *ProductCreate) Save(ctx context.Context) (*Product, error) {
-	pc.defaults()
-	return withHooks(ctx, pc.sqlSave, pc.mutation, pc.hooks)
+func (_c *ProductCreate) Save(ctx context.Context) (*Product, error) {
+	_c.defaults()
+	return withHooks(ctx, _c.sqlSave, _c.mutation, _c.hooks)
 }
 
 // SaveX calls Save and panics if Save returns an error.
-func (pc *ProductCreate) SaveX(ctx context.Context) *Product {
-	v, err := pc.Save(ctx)
+func (_c *ProductCreate) SaveX(ctx context.Context) *Product {
+	v, err := _c.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -84,51 +84,51 @@ func (pc *ProductCreate) SaveX(ctx context.Context) *Product {
 }
 
 // Exec executes the query.
-func (pc *ProductCreate) Exec(ctx context.Context) error {
-	_, err := pc.Save(ctx)
+func (_c *ProductCreate) Exec(ctx context.Context) error {
+	_, err := _c.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (pc *ProductCreate) ExecX(ctx context.Context) {
-	if err := pc.Exec(ctx); err != nil {
+func (_c *ProductCreate) ExecX(ctx context.Context) {
+	if err := _c.Exec(ctx); err != nil {
 		panic(err)
 	}
 }
 
 // defaults sets the default values of the builder before save.
-func (pc *ProductCreate) defaults() {
-	if _, ok := pc.mutation.Stock(); !ok {
+func (_c *ProductCreate) defaults() {
+	if _, ok := _c.mutation.Stock(); !ok {
 		v := product.DefaultStock
-		pc.mutation.SetStock(v)
+		_c.mutation.SetStock(v)
 	}
-	if _, ok := pc.mutation.Title(); !ok {
+	if _, ok := _c.mutation.Title(); !ok {
 		v := product.DefaultTitle
-		pc.mutation.SetTitle(v)
+		_c.mutation.SetTitle(v)
 	}
-	if _, ok := pc.mutation.SaleStatus(); !ok {
+	if _, ok := _c.mutation.SaleStatus(); !ok {
 		v := product.DefaultSaleStatus
-		pc.mutation.SetSaleStatus(v)
+		_c.mutation.SetSaleStatus(v)
 	}
 }
 
 // check runs all checks and user-defined validators on the builder.
-func (pc *ProductCreate) check() error {
-	if _, ok := pc.mutation.Stock(); !ok {
+func (_c *ProductCreate) check() error {
+	if _, ok := _c.mutation.Stock(); !ok {
 		return &ValidationError{Name: "stock", err: errors.New(`ent: missing required field "Product.stock"`)}
 	}
-	if v, ok := pc.mutation.Stock(); ok {
+	if v, ok := _c.mutation.Stock(); ok {
 		if err := product.StockValidator(v); err != nil {
 			return &ValidationError{Name: "stock", err: fmt.Errorf(`ent: validator failed for field "Product.stock": %w`, err)}
 		}
 	}
-	if _, ok := pc.mutation.Title(); !ok {
+	if _, ok := _c.mutation.Title(); !ok {
 		return &ValidationError{Name: "title", err: errors.New(`ent: missing required field "Product.title"`)}
 	}
-	if _, ok := pc.mutation.SaleStatus(); !ok {
+	if _, ok := _c.mutation.SaleStatus(); !ok {
 		return &ValidationError{Name: "sale_status", err: errors.New(`ent: missing required field "Product.sale_status"`)}
 	}
-	if v, ok := pc.mutation.SaleStatus(); ok {
+	if v, ok := _c.mutation.SaleStatus(); ok {
 		if err := product.SaleStatusValidator(v); err != nil {
 			return &ValidationError{Name: "sale_status", err: fmt.Errorf(`ent: validator failed for field "Product.sale_status": %w`, err)}
 		}
@@ -136,12 +136,12 @@ func (pc *ProductCreate) check() error {
 	return nil
 }
 
-func (pc *ProductCreate) sqlSave(ctx context.Context) (*Product, error) {
-	if err := pc.check(); err != nil {
+func (_c *ProductCreate) sqlSave(ctx context.Context) (*Product, error) {
+	if err := _c.check(); err != nil {
 		return nil, err
 	}
-	_node, _spec := pc.createSpec()
-	if err := sqlgraph.CreateNode(ctx, pc.driver, _spec); err != nil {
+	_node, _spec := _c.createSpec()
+	if err := sqlgraph.CreateNode(ctx, _c.driver, _spec); err != nil {
 		if sqlgraph.IsConstraintError(err) {
 			err = &ConstraintError{msg: err.Error(), wrap: err}
 		}
@@ -149,26 +149,26 @@ func (pc *ProductCreate) sqlSave(ctx context.Context) (*Product, error) {
 	}
 	id := _spec.ID.Value.(int64)
 	_node.ID = int(id)
-	pc.mutation.id = &_node.ID
-	pc.mutation.done = true
+	_c.mutation.id = &_node.ID
+	_c.mutation.done = true
 	return _node, nil
 }
 
-func (pc *ProductCreate) createSpec() (*Product, *sqlgraph.CreateSpec) {
+func (_c *ProductCreate) createSpec() (*Product, *sqlgraph.CreateSpec) {
 	var (
-		_node = &Product{config: pc.config}
+		_node = &Product{config: _c.config}
 		_spec = sqlgraph.NewCreateSpec(product.Table, sqlgraph.NewFieldSpec(product.FieldID, field.TypeInt))
 	)
-	_spec.OnConflict = pc.conflict
-	if value, ok := pc.mutation.Stock(); ok {
+	_spec.OnConflict = _c.conflict
+	if value, ok := _c.mutation.Stock(); ok {
 		_spec.SetField(product.FieldStock, field.TypeInt, value)
 		_node.Stock = value
 	}
-	if value, ok := pc.mutation.Title(); ok {
+	if value, ok := _c.mutation.Title(); ok {
 		_spec.SetField(product.FieldTitle, field.TypeString, value)
 		_node.Title = value
 	}
-	if value, ok := pc.mutation.SaleStatus(); ok {
+	if value, ok := _c.mutation.SaleStatus(); ok {
 		_spec.SetField(product.FieldSaleStatus, field.TypeEnum, value)
 		_node.SaleStatus = value
 	}
@@ -191,10 +191,10 @@ func (pc *ProductCreate) createSpec() (*Product, *sqlgraph.CreateSpec) {
 //			SetStock(v+v).
 //		}).
 //		Exec(ctx)
-func (pc *ProductCreate) OnConflict(opts ...sql.ConflictOption) *ProductUpsertOne {
-	pc.conflict = opts
+func (_c *ProductCreate) OnConflict(opts ...sql.ConflictOption) *ProductUpsertOne {
+	_c.conflict = opts
 	return &ProductUpsertOne{
-		create: pc,
+		create: _c,
 	}
 }
 
@@ -204,10 +204,10 @@ func (pc *ProductCreate) OnConflict(opts ...sql.ConflictOption) *ProductUpsertOn
 //	client.Product.Create().
 //		OnConflict(sql.ConflictColumns(columns...)).
 //		Exec(ctx)
-func (pc *ProductCreate) OnConflictColumns(columns ...string) *ProductUpsertOne {
-	pc.conflict = append(pc.conflict, sql.ConflictColumns(columns...))
+func (_c *ProductCreate) OnConflictColumns(columns ...string) *ProductUpsertOne {
+	_c.conflict = append(_c.conflict, sql.ConflictColumns(columns...))
 	return &ProductUpsertOne{
-		create: pc,
+		create: _c,
 	}
 }
 
@@ -397,16 +397,16 @@ type ProductCreateBulk struct {
 }
 
 // Save creates the Product entities in the database.
-func (pcb *ProductCreateBulk) Save(ctx context.Context) ([]*Product, error) {
-	if pcb.err != nil {
-		return nil, pcb.err
+func (_c *ProductCreateBulk) Save(ctx context.Context) ([]*Product, error) {
+	if _c.err != nil {
+		return nil, _c.err
 	}
-	specs := make([]*sqlgraph.CreateSpec, len(pcb.builders))
-	nodes := make([]*Product, len(pcb.builders))
-	mutators := make([]Mutator, len(pcb.builders))
-	for i := range pcb.builders {
+	specs := make([]*sqlgraph.CreateSpec, len(_c.builders))
+	nodes := make([]*Product, len(_c.builders))
+	mutators := make([]Mutator, len(_c.builders))
+	for i := range _c.builders {
 		func(i int, root context.Context) {
-			builder := pcb.builders[i]
+			builder := _c.builders[i]
 			builder.defaults()
 			var mut Mutator = MutateFunc(func(ctx context.Context, m Mutation) (Value, error) {
 				mutation, ok := m.(*ProductMutation)
@@ -420,12 +420,12 @@ func (pcb *ProductCreateBulk) Save(ctx context.Context) ([]*Product, error) {
 				var err error
 				nodes[i], specs[i] = builder.createSpec()
 				if i < len(mutators)-1 {
-					_, err = mutators[i+1].Mutate(root, pcb.builders[i+1].mutation)
+					_, err = mutators[i+1].Mutate(root, _c.builders[i+1].mutation)
 				} else {
 					spec := &sqlgraph.BatchCreateSpec{Nodes: specs}
-					spec.OnConflict = pcb.conflict
+					spec.OnConflict = _c.conflict
 					// Invoke the actual operation on the latest mutation in the chain.
-					if err = sqlgraph.BatchCreate(ctx, pcb.driver, spec); err != nil {
+					if err = sqlgraph.BatchCreate(ctx, _c.driver, spec); err != nil {
 						if sqlgraph.IsConstraintError(err) {
 							err = &ConstraintError{msg: err.Error(), wrap: err}
 						}
@@ -449,7 +449,7 @@ func (pcb *ProductCreateBulk) Save(ctx context.Context) ([]*Product, error) {
 		}(i, ctx)
 	}
 	if len(mutators) > 0 {
-		if _, err := mutators[0].Mutate(ctx, pcb.builders[0].mutation); err != nil {
+		if _, err := mutators[0].Mutate(ctx, _c.builders[0].mutation); err != nil {
 			return nil, err
 		}
 	}
@@ -457,8 +457,8 @@ func (pcb *ProductCreateBulk) Save(ctx context.Context) ([]*Product, error) {
 }
 
 // SaveX is like Save, but panics if an error occurs.
-func (pcb *ProductCreateBulk) SaveX(ctx context.Context) []*Product {
-	v, err := pcb.Save(ctx)
+func (_c *ProductCreateBulk) SaveX(ctx context.Context) []*Product {
+	v, err := _c.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -466,14 +466,14 @@ func (pcb *ProductCreateBulk) SaveX(ctx context.Context) []*Product {
 }
 
 // Exec executes the query.
-func (pcb *ProductCreateBulk) Exec(ctx context.Context) error {
-	_, err := pcb.Save(ctx)
+func (_c *ProductCreateBulk) Exec(ctx context.Context) error {
+	_, err := _c.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (pcb *ProductCreateBulk) ExecX(ctx context.Context) {
-	if err := pcb.Exec(ctx); err != nil {
+func (_c *ProductCreateBulk) ExecX(ctx context.Context) {
+	if err := _c.Exec(ctx); err != nil {
 		panic(err)
 	}
 }
@@ -493,10 +493,10 @@ func (pcb *ProductCreateBulk) ExecX(ctx context.Context) {
 //			SetStock(v+v).
 //		}).
 //		Exec(ctx)
-func (pcb *ProductCreateBulk) OnConflict(opts ...sql.ConflictOption) *ProductUpsertBulk {
-	pcb.conflict = opts
+func (_c *ProductCreateBulk) OnConflict(opts ...sql.ConflictOption) *ProductUpsertBulk {
+	_c.conflict = opts
 	return &ProductUpsertBulk{
-		create: pcb,
+		create: _c,
 	}
 }
 
@@ -506,10 +506,10 @@ func (pcb *ProductCreateBulk) OnConflict(opts ...sql.ConflictOption) *ProductUps
 //	client.Product.Create().
 //		OnConflict(sql.ConflictColumns(columns...)).
 //		Exec(ctx)
-func (pcb *ProductCreateBulk) OnConflictColumns(columns ...string) *ProductUpsertBulk {
-	pcb.conflict = append(pcb.conflict, sql.ConflictColumns(columns...))
+func (_c *ProductCreateBulk) OnConflictColumns(columns ...string) *ProductUpsertBulk {
+	_c.conflict = append(_c.conflict, sql.ConflictColumns(columns...))
 	return &ProductUpsertBulk{
-		create: pcb,
+		create: _c,
 	}
 }
 

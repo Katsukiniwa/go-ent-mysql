@@ -23,73 +23,73 @@ type ProductUpdate struct {
 }
 
 // Where appends a list predicates to the ProductUpdate builder.
-func (pu *ProductUpdate) Where(ps ...predicate.Product) *ProductUpdate {
-	pu.mutation.Where(ps...)
-	return pu
+func (_u *ProductUpdate) Where(ps ...predicate.Product) *ProductUpdate {
+	_u.mutation.Where(ps...)
+	return _u
 }
 
 // SetStock sets the "stock" field.
-func (pu *ProductUpdate) SetStock(i int) *ProductUpdate {
-	pu.mutation.ResetStock()
-	pu.mutation.SetStock(i)
-	return pu
+func (_u *ProductUpdate) SetStock(v int) *ProductUpdate {
+	_u.mutation.ResetStock()
+	_u.mutation.SetStock(v)
+	return _u
 }
 
 // SetNillableStock sets the "stock" field if the given value is not nil.
-func (pu *ProductUpdate) SetNillableStock(i *int) *ProductUpdate {
-	if i != nil {
-		pu.SetStock(*i)
+func (_u *ProductUpdate) SetNillableStock(v *int) *ProductUpdate {
+	if v != nil {
+		_u.SetStock(*v)
 	}
-	return pu
+	return _u
 }
 
-// AddStock adds i to the "stock" field.
-func (pu *ProductUpdate) AddStock(i int) *ProductUpdate {
-	pu.mutation.AddStock(i)
-	return pu
+// AddStock adds value to the "stock" field.
+func (_u *ProductUpdate) AddStock(v int) *ProductUpdate {
+	_u.mutation.AddStock(v)
+	return _u
 }
 
 // SetTitle sets the "title" field.
-func (pu *ProductUpdate) SetTitle(s string) *ProductUpdate {
-	pu.mutation.SetTitle(s)
-	return pu
+func (_u *ProductUpdate) SetTitle(v string) *ProductUpdate {
+	_u.mutation.SetTitle(v)
+	return _u
 }
 
 // SetNillableTitle sets the "title" field if the given value is not nil.
-func (pu *ProductUpdate) SetNillableTitle(s *string) *ProductUpdate {
-	if s != nil {
-		pu.SetTitle(*s)
+func (_u *ProductUpdate) SetNillableTitle(v *string) *ProductUpdate {
+	if v != nil {
+		_u.SetTitle(*v)
 	}
-	return pu
+	return _u
 }
 
 // SetSaleStatus sets the "sale_status" field.
-func (pu *ProductUpdate) SetSaleStatus(ps product.SaleStatus) *ProductUpdate {
-	pu.mutation.SetSaleStatus(ps)
-	return pu
+func (_u *ProductUpdate) SetSaleStatus(v product.SaleStatus) *ProductUpdate {
+	_u.mutation.SetSaleStatus(v)
+	return _u
 }
 
 // SetNillableSaleStatus sets the "sale_status" field if the given value is not nil.
-func (pu *ProductUpdate) SetNillableSaleStatus(ps *product.SaleStatus) *ProductUpdate {
-	if ps != nil {
-		pu.SetSaleStatus(*ps)
+func (_u *ProductUpdate) SetNillableSaleStatus(v *product.SaleStatus) *ProductUpdate {
+	if v != nil {
+		_u.SetSaleStatus(*v)
 	}
-	return pu
+	return _u
 }
 
 // Mutation returns the ProductMutation object of the builder.
-func (pu *ProductUpdate) Mutation() *ProductMutation {
-	return pu.mutation
+func (_u *ProductUpdate) Mutation() *ProductMutation {
+	return _u.mutation
 }
 
 // Save executes the query and returns the number of nodes affected by the update operation.
-func (pu *ProductUpdate) Save(ctx context.Context) (int, error) {
-	return withHooks(ctx, pu.sqlSave, pu.mutation, pu.hooks)
+func (_u *ProductUpdate) Save(ctx context.Context) (int, error) {
+	return withHooks(ctx, _u.sqlSave, _u.mutation, _u.hooks)
 }
 
 // SaveX is like Save, but panics if an error occurs.
-func (pu *ProductUpdate) SaveX(ctx context.Context) int {
-	affected, err := pu.Save(ctx)
+func (_u *ProductUpdate) SaveX(ctx context.Context) int {
+	affected, err := _u.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -97,26 +97,26 @@ func (pu *ProductUpdate) SaveX(ctx context.Context) int {
 }
 
 // Exec executes the query.
-func (pu *ProductUpdate) Exec(ctx context.Context) error {
-	_, err := pu.Save(ctx)
+func (_u *ProductUpdate) Exec(ctx context.Context) error {
+	_, err := _u.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (pu *ProductUpdate) ExecX(ctx context.Context) {
-	if err := pu.Exec(ctx); err != nil {
+func (_u *ProductUpdate) ExecX(ctx context.Context) {
+	if err := _u.Exec(ctx); err != nil {
 		panic(err)
 	}
 }
 
 // check runs all checks and user-defined validators on the builder.
-func (pu *ProductUpdate) check() error {
-	if v, ok := pu.mutation.Stock(); ok {
+func (_u *ProductUpdate) check() error {
+	if v, ok := _u.mutation.Stock(); ok {
 		if err := product.StockValidator(v); err != nil {
 			return &ValidationError{Name: "stock", err: fmt.Errorf(`ent: validator failed for field "Product.stock": %w`, err)}
 		}
 	}
-	if v, ok := pu.mutation.SaleStatus(); ok {
+	if v, ok := _u.mutation.SaleStatus(); ok {
 		if err := product.SaleStatusValidator(v); err != nil {
 			return &ValidationError{Name: "sale_status", err: fmt.Errorf(`ent: validator failed for field "Product.sale_status": %w`, err)}
 		}
@@ -125,37 +125,37 @@ func (pu *ProductUpdate) check() error {
 }
 
 // Modify adds a statement modifier for attaching custom logic to the UPDATE statement.
-func (pu *ProductUpdate) Modify(modifiers ...func(u *sql.UpdateBuilder)) *ProductUpdate {
-	pu.modifiers = append(pu.modifiers, modifiers...)
-	return pu
+func (_u *ProductUpdate) Modify(modifiers ...func(u *sql.UpdateBuilder)) *ProductUpdate {
+	_u.modifiers = append(_u.modifiers, modifiers...)
+	return _u
 }
 
-func (pu *ProductUpdate) sqlSave(ctx context.Context) (n int, err error) {
-	if err := pu.check(); err != nil {
-		return n, err
+func (_u *ProductUpdate) sqlSave(ctx context.Context) (_node int, err error) {
+	if err := _u.check(); err != nil {
+		return _node, err
 	}
 	_spec := sqlgraph.NewUpdateSpec(product.Table, product.Columns, sqlgraph.NewFieldSpec(product.FieldID, field.TypeInt))
-	if ps := pu.mutation.predicates; len(ps) > 0 {
+	if ps := _u.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
 				ps[i](selector)
 			}
 		}
 	}
-	if value, ok := pu.mutation.Stock(); ok {
+	if value, ok := _u.mutation.Stock(); ok {
 		_spec.SetField(product.FieldStock, field.TypeInt, value)
 	}
-	if value, ok := pu.mutation.AddedStock(); ok {
+	if value, ok := _u.mutation.AddedStock(); ok {
 		_spec.AddField(product.FieldStock, field.TypeInt, value)
 	}
-	if value, ok := pu.mutation.Title(); ok {
+	if value, ok := _u.mutation.Title(); ok {
 		_spec.SetField(product.FieldTitle, field.TypeString, value)
 	}
-	if value, ok := pu.mutation.SaleStatus(); ok {
+	if value, ok := _u.mutation.SaleStatus(); ok {
 		_spec.SetField(product.FieldSaleStatus, field.TypeEnum, value)
 	}
-	_spec.AddModifiers(pu.modifiers...)
-	if n, err = sqlgraph.UpdateNodes(ctx, pu.driver, _spec); err != nil {
+	_spec.AddModifiers(_u.modifiers...)
+	if _node, err = sqlgraph.UpdateNodes(ctx, _u.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
 			err = &NotFoundError{product.Label}
 		} else if sqlgraph.IsConstraintError(err) {
@@ -163,8 +163,8 @@ func (pu *ProductUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		}
 		return 0, err
 	}
-	pu.mutation.done = true
-	return n, nil
+	_u.mutation.done = true
+	return _node, nil
 }
 
 // ProductUpdateOne is the builder for updating a single Product entity.
@@ -177,80 +177,80 @@ type ProductUpdateOne struct {
 }
 
 // SetStock sets the "stock" field.
-func (puo *ProductUpdateOne) SetStock(i int) *ProductUpdateOne {
-	puo.mutation.ResetStock()
-	puo.mutation.SetStock(i)
-	return puo
+func (_u *ProductUpdateOne) SetStock(v int) *ProductUpdateOne {
+	_u.mutation.ResetStock()
+	_u.mutation.SetStock(v)
+	return _u
 }
 
 // SetNillableStock sets the "stock" field if the given value is not nil.
-func (puo *ProductUpdateOne) SetNillableStock(i *int) *ProductUpdateOne {
-	if i != nil {
-		puo.SetStock(*i)
+func (_u *ProductUpdateOne) SetNillableStock(v *int) *ProductUpdateOne {
+	if v != nil {
+		_u.SetStock(*v)
 	}
-	return puo
+	return _u
 }
 
-// AddStock adds i to the "stock" field.
-func (puo *ProductUpdateOne) AddStock(i int) *ProductUpdateOne {
-	puo.mutation.AddStock(i)
-	return puo
+// AddStock adds value to the "stock" field.
+func (_u *ProductUpdateOne) AddStock(v int) *ProductUpdateOne {
+	_u.mutation.AddStock(v)
+	return _u
 }
 
 // SetTitle sets the "title" field.
-func (puo *ProductUpdateOne) SetTitle(s string) *ProductUpdateOne {
-	puo.mutation.SetTitle(s)
-	return puo
+func (_u *ProductUpdateOne) SetTitle(v string) *ProductUpdateOne {
+	_u.mutation.SetTitle(v)
+	return _u
 }
 
 // SetNillableTitle sets the "title" field if the given value is not nil.
-func (puo *ProductUpdateOne) SetNillableTitle(s *string) *ProductUpdateOne {
-	if s != nil {
-		puo.SetTitle(*s)
+func (_u *ProductUpdateOne) SetNillableTitle(v *string) *ProductUpdateOne {
+	if v != nil {
+		_u.SetTitle(*v)
 	}
-	return puo
+	return _u
 }
 
 // SetSaleStatus sets the "sale_status" field.
-func (puo *ProductUpdateOne) SetSaleStatus(ps product.SaleStatus) *ProductUpdateOne {
-	puo.mutation.SetSaleStatus(ps)
-	return puo
+func (_u *ProductUpdateOne) SetSaleStatus(v product.SaleStatus) *ProductUpdateOne {
+	_u.mutation.SetSaleStatus(v)
+	return _u
 }
 
 // SetNillableSaleStatus sets the "sale_status" field if the given value is not nil.
-func (puo *ProductUpdateOne) SetNillableSaleStatus(ps *product.SaleStatus) *ProductUpdateOne {
-	if ps != nil {
-		puo.SetSaleStatus(*ps)
+func (_u *ProductUpdateOne) SetNillableSaleStatus(v *product.SaleStatus) *ProductUpdateOne {
+	if v != nil {
+		_u.SetSaleStatus(*v)
 	}
-	return puo
+	return _u
 }
 
 // Mutation returns the ProductMutation object of the builder.
-func (puo *ProductUpdateOne) Mutation() *ProductMutation {
-	return puo.mutation
+func (_u *ProductUpdateOne) Mutation() *ProductMutation {
+	return _u.mutation
 }
 
 // Where appends a list predicates to the ProductUpdate builder.
-func (puo *ProductUpdateOne) Where(ps ...predicate.Product) *ProductUpdateOne {
-	puo.mutation.Where(ps...)
-	return puo
+func (_u *ProductUpdateOne) Where(ps ...predicate.Product) *ProductUpdateOne {
+	_u.mutation.Where(ps...)
+	return _u
 }
 
 // Select allows selecting one or more fields (columns) of the returned entity.
 // The default is selecting all fields defined in the entity schema.
-func (puo *ProductUpdateOne) Select(field string, fields ...string) *ProductUpdateOne {
-	puo.fields = append([]string{field}, fields...)
-	return puo
+func (_u *ProductUpdateOne) Select(field string, fields ...string) *ProductUpdateOne {
+	_u.fields = append([]string{field}, fields...)
+	return _u
 }
 
 // Save executes the query and returns the updated Product entity.
-func (puo *ProductUpdateOne) Save(ctx context.Context) (*Product, error) {
-	return withHooks(ctx, puo.sqlSave, puo.mutation, puo.hooks)
+func (_u *ProductUpdateOne) Save(ctx context.Context) (*Product, error) {
+	return withHooks(ctx, _u.sqlSave, _u.mutation, _u.hooks)
 }
 
 // SaveX is like Save, but panics if an error occurs.
-func (puo *ProductUpdateOne) SaveX(ctx context.Context) *Product {
-	node, err := puo.Save(ctx)
+func (_u *ProductUpdateOne) SaveX(ctx context.Context) *Product {
+	node, err := _u.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -258,26 +258,26 @@ func (puo *ProductUpdateOne) SaveX(ctx context.Context) *Product {
 }
 
 // Exec executes the query on the entity.
-func (puo *ProductUpdateOne) Exec(ctx context.Context) error {
-	_, err := puo.Save(ctx)
+func (_u *ProductUpdateOne) Exec(ctx context.Context) error {
+	_, err := _u.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (puo *ProductUpdateOne) ExecX(ctx context.Context) {
-	if err := puo.Exec(ctx); err != nil {
+func (_u *ProductUpdateOne) ExecX(ctx context.Context) {
+	if err := _u.Exec(ctx); err != nil {
 		panic(err)
 	}
 }
 
 // check runs all checks and user-defined validators on the builder.
-func (puo *ProductUpdateOne) check() error {
-	if v, ok := puo.mutation.Stock(); ok {
+func (_u *ProductUpdateOne) check() error {
+	if v, ok := _u.mutation.Stock(); ok {
 		if err := product.StockValidator(v); err != nil {
 			return &ValidationError{Name: "stock", err: fmt.Errorf(`ent: validator failed for field "Product.stock": %w`, err)}
 		}
 	}
-	if v, ok := puo.mutation.SaleStatus(); ok {
+	if v, ok := _u.mutation.SaleStatus(); ok {
 		if err := product.SaleStatusValidator(v); err != nil {
 			return &ValidationError{Name: "sale_status", err: fmt.Errorf(`ent: validator failed for field "Product.sale_status": %w`, err)}
 		}
@@ -286,22 +286,22 @@ func (puo *ProductUpdateOne) check() error {
 }
 
 // Modify adds a statement modifier for attaching custom logic to the UPDATE statement.
-func (puo *ProductUpdateOne) Modify(modifiers ...func(u *sql.UpdateBuilder)) *ProductUpdateOne {
-	puo.modifiers = append(puo.modifiers, modifiers...)
-	return puo
+func (_u *ProductUpdateOne) Modify(modifiers ...func(u *sql.UpdateBuilder)) *ProductUpdateOne {
+	_u.modifiers = append(_u.modifiers, modifiers...)
+	return _u
 }
 
-func (puo *ProductUpdateOne) sqlSave(ctx context.Context) (_node *Product, err error) {
-	if err := puo.check(); err != nil {
+func (_u *ProductUpdateOne) sqlSave(ctx context.Context) (_node *Product, err error) {
+	if err := _u.check(); err != nil {
 		return _node, err
 	}
 	_spec := sqlgraph.NewUpdateSpec(product.Table, product.Columns, sqlgraph.NewFieldSpec(product.FieldID, field.TypeInt))
-	id, ok := puo.mutation.ID()
+	id, ok := _u.mutation.ID()
 	if !ok {
 		return nil, &ValidationError{Name: "id", err: errors.New(`ent: missing "Product.id" for update`)}
 	}
 	_spec.Node.ID.Value = id
-	if fields := puo.fields; len(fields) > 0 {
+	if fields := _u.fields; len(fields) > 0 {
 		_spec.Node.Columns = make([]string, 0, len(fields))
 		_spec.Node.Columns = append(_spec.Node.Columns, product.FieldID)
 		for _, f := range fields {
@@ -313,30 +313,30 @@ func (puo *ProductUpdateOne) sqlSave(ctx context.Context) (_node *Product, err e
 			}
 		}
 	}
-	if ps := puo.mutation.predicates; len(ps) > 0 {
+	if ps := _u.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
 				ps[i](selector)
 			}
 		}
 	}
-	if value, ok := puo.mutation.Stock(); ok {
+	if value, ok := _u.mutation.Stock(); ok {
 		_spec.SetField(product.FieldStock, field.TypeInt, value)
 	}
-	if value, ok := puo.mutation.AddedStock(); ok {
+	if value, ok := _u.mutation.AddedStock(); ok {
 		_spec.AddField(product.FieldStock, field.TypeInt, value)
 	}
-	if value, ok := puo.mutation.Title(); ok {
+	if value, ok := _u.mutation.Title(); ok {
 		_spec.SetField(product.FieldTitle, field.TypeString, value)
 	}
-	if value, ok := puo.mutation.SaleStatus(); ok {
+	if value, ok := _u.mutation.SaleStatus(); ok {
 		_spec.SetField(product.FieldSaleStatus, field.TypeEnum, value)
 	}
-	_spec.AddModifiers(puo.modifiers...)
-	_node = &Product{config: puo.config}
+	_spec.AddModifiers(_u.modifiers...)
+	_node = &Product{config: _u.config}
 	_spec.Assign = _node.assignValues
 	_spec.ScanValues = _node.scanValues
-	if err = sqlgraph.UpdateNode(ctx, puo.driver, _spec); err != nil {
+	if err = sqlgraph.UpdateNode(ctx, _u.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
 			err = &NotFoundError{product.Label}
 		} else if sqlgraph.IsConstraintError(err) {
@@ -344,6 +344,6 @@ func (puo *ProductUpdateOne) sqlSave(ctx context.Context) (_node *Product, err e
 		}
 		return nil, err
 	}
-	puo.mutation.done = true
+	_u.mutation.done = true
 	return _node, nil
 }

@@ -24,76 +24,76 @@ type HistoryUpdate struct {
 }
 
 // Where appends a list predicates to the HistoryUpdate builder.
-func (hu *HistoryUpdate) Where(ps ...predicate.History) *HistoryUpdate {
-	hu.mutation.Where(ps...)
-	return hu
+func (_u *HistoryUpdate) Where(ps ...predicate.History) *HistoryUpdate {
+	_u.mutation.Where(ps...)
+	return _u
 }
 
 // SetAmount sets the "amount" field.
-func (hu *HistoryUpdate) SetAmount(i int) *HistoryUpdate {
-	hu.mutation.ResetAmount()
-	hu.mutation.SetAmount(i)
-	return hu
+func (_u *HistoryUpdate) SetAmount(v int) *HistoryUpdate {
+	_u.mutation.ResetAmount()
+	_u.mutation.SetAmount(v)
+	return _u
 }
 
 // SetNillableAmount sets the "amount" field if the given value is not nil.
-func (hu *HistoryUpdate) SetNillableAmount(i *int) *HistoryUpdate {
-	if i != nil {
-		hu.SetAmount(*i)
+func (_u *HistoryUpdate) SetNillableAmount(v *int) *HistoryUpdate {
+	if v != nil {
+		_u.SetAmount(*v)
 	}
-	return hu
+	return _u
 }
 
-// AddAmount adds i to the "amount" field.
-func (hu *HistoryUpdate) AddAmount(i int) *HistoryUpdate {
-	hu.mutation.AddAmount(i)
-	return hu
+// AddAmount adds value to the "amount" field.
+func (_u *HistoryUpdate) AddAmount(v int) *HistoryUpdate {
+	_u.mutation.AddAmount(v)
+	return _u
 }
 
 // SetUserID sets the "user_id" field.
-func (hu *HistoryUpdate) SetUserID(i int) *HistoryUpdate {
-	hu.mutation.SetUserID(i)
-	return hu
+func (_u *HistoryUpdate) SetUserID(v int) *HistoryUpdate {
+	_u.mutation.SetUserID(v)
+	return _u
 }
 
 // SetNillableUserID sets the "user_id" field if the given value is not nil.
-func (hu *HistoryUpdate) SetNillableUserID(i *int) *HistoryUpdate {
-	if i != nil {
-		hu.SetUserID(*i)
+func (_u *HistoryUpdate) SetNillableUserID(v *int) *HistoryUpdate {
+	if v != nil {
+		_u.SetUserID(*v)
 	}
-	return hu
+	return _u
 }
 
 // ClearUserID clears the value of the "user_id" field.
-func (hu *HistoryUpdate) ClearUserID() *HistoryUpdate {
-	hu.mutation.ClearUserID()
-	return hu
+func (_u *HistoryUpdate) ClearUserID() *HistoryUpdate {
+	_u.mutation.ClearUserID()
+	return _u
 }
 
 // SetUser sets the "user" edge to the User entity.
-func (hu *HistoryUpdate) SetUser(u *User) *HistoryUpdate {
-	return hu.SetUserID(u.ID)
+func (_u *HistoryUpdate) SetUser(v *User) *HistoryUpdate {
+	return _u.SetUserID(v.ID)
 }
 
 // Mutation returns the HistoryMutation object of the builder.
-func (hu *HistoryUpdate) Mutation() *HistoryMutation {
-	return hu.mutation
+func (_u *HistoryUpdate) Mutation() *HistoryMutation {
+	return _u.mutation
 }
 
 // ClearUser clears the "user" edge to the User entity.
-func (hu *HistoryUpdate) ClearUser() *HistoryUpdate {
-	hu.mutation.ClearUser()
-	return hu
+func (_u *HistoryUpdate) ClearUser() *HistoryUpdate {
+	_u.mutation.ClearUser()
+	return _u
 }
 
 // Save executes the query and returns the number of nodes affected by the update operation.
-func (hu *HistoryUpdate) Save(ctx context.Context) (int, error) {
-	return withHooks(ctx, hu.sqlSave, hu.mutation, hu.hooks)
+func (_u *HistoryUpdate) Save(ctx context.Context) (int, error) {
+	return withHooks(ctx, _u.sqlSave, _u.mutation, _u.hooks)
 }
 
 // SaveX is like Save, but panics if an error occurs.
-func (hu *HistoryUpdate) SaveX(ctx context.Context) int {
-	affected, err := hu.Save(ctx)
+func (_u *HistoryUpdate) SaveX(ctx context.Context) int {
+	affected, err := _u.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -101,40 +101,40 @@ func (hu *HistoryUpdate) SaveX(ctx context.Context) int {
 }
 
 // Exec executes the query.
-func (hu *HistoryUpdate) Exec(ctx context.Context) error {
-	_, err := hu.Save(ctx)
+func (_u *HistoryUpdate) Exec(ctx context.Context) error {
+	_, err := _u.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (hu *HistoryUpdate) ExecX(ctx context.Context) {
-	if err := hu.Exec(ctx); err != nil {
+func (_u *HistoryUpdate) ExecX(ctx context.Context) {
+	if err := _u.Exec(ctx); err != nil {
 		panic(err)
 	}
 }
 
 // Modify adds a statement modifier for attaching custom logic to the UPDATE statement.
-func (hu *HistoryUpdate) Modify(modifiers ...func(u *sql.UpdateBuilder)) *HistoryUpdate {
-	hu.modifiers = append(hu.modifiers, modifiers...)
-	return hu
+func (_u *HistoryUpdate) Modify(modifiers ...func(u *sql.UpdateBuilder)) *HistoryUpdate {
+	_u.modifiers = append(_u.modifiers, modifiers...)
+	return _u
 }
 
-func (hu *HistoryUpdate) sqlSave(ctx context.Context) (n int, err error) {
+func (_u *HistoryUpdate) sqlSave(ctx context.Context) (_node int, err error) {
 	_spec := sqlgraph.NewUpdateSpec(history.Table, history.Columns, sqlgraph.NewFieldSpec(history.FieldID, field.TypeInt))
-	if ps := hu.mutation.predicates; len(ps) > 0 {
+	if ps := _u.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
 				ps[i](selector)
 			}
 		}
 	}
-	if value, ok := hu.mutation.Amount(); ok {
+	if value, ok := _u.mutation.Amount(); ok {
 		_spec.SetField(history.FieldAmount, field.TypeInt, value)
 	}
-	if value, ok := hu.mutation.AddedAmount(); ok {
+	if value, ok := _u.mutation.AddedAmount(); ok {
 		_spec.AddField(history.FieldAmount, field.TypeInt, value)
 	}
-	if hu.mutation.UserCleared() {
+	if _u.mutation.UserCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2O,
 			Inverse: true,
@@ -147,7 +147,7 @@ func (hu *HistoryUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
-	if nodes := hu.mutation.UserIDs(); len(nodes) > 0 {
+	if nodes := _u.mutation.UserIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2O,
 			Inverse: true,
@@ -163,8 +163,8 @@ func (hu *HistoryUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		}
 		_spec.Edges.Add = append(_spec.Edges.Add, edge)
 	}
-	_spec.AddModifiers(hu.modifiers...)
-	if n, err = sqlgraph.UpdateNodes(ctx, hu.driver, _spec); err != nil {
+	_spec.AddModifiers(_u.modifiers...)
+	if _node, err = sqlgraph.UpdateNodes(ctx, _u.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
 			err = &NotFoundError{history.Label}
 		} else if sqlgraph.IsConstraintError(err) {
@@ -172,8 +172,8 @@ func (hu *HistoryUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		}
 		return 0, err
 	}
-	hu.mutation.done = true
-	return n, nil
+	_u.mutation.done = true
+	return _node, nil
 }
 
 // HistoryUpdateOne is the builder for updating a single History entity.
@@ -186,83 +186,83 @@ type HistoryUpdateOne struct {
 }
 
 // SetAmount sets the "amount" field.
-func (huo *HistoryUpdateOne) SetAmount(i int) *HistoryUpdateOne {
-	huo.mutation.ResetAmount()
-	huo.mutation.SetAmount(i)
-	return huo
+func (_u *HistoryUpdateOne) SetAmount(v int) *HistoryUpdateOne {
+	_u.mutation.ResetAmount()
+	_u.mutation.SetAmount(v)
+	return _u
 }
 
 // SetNillableAmount sets the "amount" field if the given value is not nil.
-func (huo *HistoryUpdateOne) SetNillableAmount(i *int) *HistoryUpdateOne {
-	if i != nil {
-		huo.SetAmount(*i)
+func (_u *HistoryUpdateOne) SetNillableAmount(v *int) *HistoryUpdateOne {
+	if v != nil {
+		_u.SetAmount(*v)
 	}
-	return huo
+	return _u
 }
 
-// AddAmount adds i to the "amount" field.
-func (huo *HistoryUpdateOne) AddAmount(i int) *HistoryUpdateOne {
-	huo.mutation.AddAmount(i)
-	return huo
+// AddAmount adds value to the "amount" field.
+func (_u *HistoryUpdateOne) AddAmount(v int) *HistoryUpdateOne {
+	_u.mutation.AddAmount(v)
+	return _u
 }
 
 // SetUserID sets the "user_id" field.
-func (huo *HistoryUpdateOne) SetUserID(i int) *HistoryUpdateOne {
-	huo.mutation.SetUserID(i)
-	return huo
+func (_u *HistoryUpdateOne) SetUserID(v int) *HistoryUpdateOne {
+	_u.mutation.SetUserID(v)
+	return _u
 }
 
 // SetNillableUserID sets the "user_id" field if the given value is not nil.
-func (huo *HistoryUpdateOne) SetNillableUserID(i *int) *HistoryUpdateOne {
-	if i != nil {
-		huo.SetUserID(*i)
+func (_u *HistoryUpdateOne) SetNillableUserID(v *int) *HistoryUpdateOne {
+	if v != nil {
+		_u.SetUserID(*v)
 	}
-	return huo
+	return _u
 }
 
 // ClearUserID clears the value of the "user_id" field.
-func (huo *HistoryUpdateOne) ClearUserID() *HistoryUpdateOne {
-	huo.mutation.ClearUserID()
-	return huo
+func (_u *HistoryUpdateOne) ClearUserID() *HistoryUpdateOne {
+	_u.mutation.ClearUserID()
+	return _u
 }
 
 // SetUser sets the "user" edge to the User entity.
-func (huo *HistoryUpdateOne) SetUser(u *User) *HistoryUpdateOne {
-	return huo.SetUserID(u.ID)
+func (_u *HistoryUpdateOne) SetUser(v *User) *HistoryUpdateOne {
+	return _u.SetUserID(v.ID)
 }
 
 // Mutation returns the HistoryMutation object of the builder.
-func (huo *HistoryUpdateOne) Mutation() *HistoryMutation {
-	return huo.mutation
+func (_u *HistoryUpdateOne) Mutation() *HistoryMutation {
+	return _u.mutation
 }
 
 // ClearUser clears the "user" edge to the User entity.
-func (huo *HistoryUpdateOne) ClearUser() *HistoryUpdateOne {
-	huo.mutation.ClearUser()
-	return huo
+func (_u *HistoryUpdateOne) ClearUser() *HistoryUpdateOne {
+	_u.mutation.ClearUser()
+	return _u
 }
 
 // Where appends a list predicates to the HistoryUpdate builder.
-func (huo *HistoryUpdateOne) Where(ps ...predicate.History) *HistoryUpdateOne {
-	huo.mutation.Where(ps...)
-	return huo
+func (_u *HistoryUpdateOne) Where(ps ...predicate.History) *HistoryUpdateOne {
+	_u.mutation.Where(ps...)
+	return _u
 }
 
 // Select allows selecting one or more fields (columns) of the returned entity.
 // The default is selecting all fields defined in the entity schema.
-func (huo *HistoryUpdateOne) Select(field string, fields ...string) *HistoryUpdateOne {
-	huo.fields = append([]string{field}, fields...)
-	return huo
+func (_u *HistoryUpdateOne) Select(field string, fields ...string) *HistoryUpdateOne {
+	_u.fields = append([]string{field}, fields...)
+	return _u
 }
 
 // Save executes the query and returns the updated History entity.
-func (huo *HistoryUpdateOne) Save(ctx context.Context) (*History, error) {
-	return withHooks(ctx, huo.sqlSave, huo.mutation, huo.hooks)
+func (_u *HistoryUpdateOne) Save(ctx context.Context) (*History, error) {
+	return withHooks(ctx, _u.sqlSave, _u.mutation, _u.hooks)
 }
 
 // SaveX is like Save, but panics if an error occurs.
-func (huo *HistoryUpdateOne) SaveX(ctx context.Context) *History {
-	node, err := huo.Save(ctx)
+func (_u *HistoryUpdateOne) SaveX(ctx context.Context) *History {
+	node, err := _u.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -270,32 +270,32 @@ func (huo *HistoryUpdateOne) SaveX(ctx context.Context) *History {
 }
 
 // Exec executes the query on the entity.
-func (huo *HistoryUpdateOne) Exec(ctx context.Context) error {
-	_, err := huo.Save(ctx)
+func (_u *HistoryUpdateOne) Exec(ctx context.Context) error {
+	_, err := _u.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (huo *HistoryUpdateOne) ExecX(ctx context.Context) {
-	if err := huo.Exec(ctx); err != nil {
+func (_u *HistoryUpdateOne) ExecX(ctx context.Context) {
+	if err := _u.Exec(ctx); err != nil {
 		panic(err)
 	}
 }
 
 // Modify adds a statement modifier for attaching custom logic to the UPDATE statement.
-func (huo *HistoryUpdateOne) Modify(modifiers ...func(u *sql.UpdateBuilder)) *HistoryUpdateOne {
-	huo.modifiers = append(huo.modifiers, modifiers...)
-	return huo
+func (_u *HistoryUpdateOne) Modify(modifiers ...func(u *sql.UpdateBuilder)) *HistoryUpdateOne {
+	_u.modifiers = append(_u.modifiers, modifiers...)
+	return _u
 }
 
-func (huo *HistoryUpdateOne) sqlSave(ctx context.Context) (_node *History, err error) {
+func (_u *HistoryUpdateOne) sqlSave(ctx context.Context) (_node *History, err error) {
 	_spec := sqlgraph.NewUpdateSpec(history.Table, history.Columns, sqlgraph.NewFieldSpec(history.FieldID, field.TypeInt))
-	id, ok := huo.mutation.ID()
+	id, ok := _u.mutation.ID()
 	if !ok {
 		return nil, &ValidationError{Name: "id", err: errors.New(`ent: missing "History.id" for update`)}
 	}
 	_spec.Node.ID.Value = id
-	if fields := huo.fields; len(fields) > 0 {
+	if fields := _u.fields; len(fields) > 0 {
 		_spec.Node.Columns = make([]string, 0, len(fields))
 		_spec.Node.Columns = append(_spec.Node.Columns, history.FieldID)
 		for _, f := range fields {
@@ -307,20 +307,20 @@ func (huo *HistoryUpdateOne) sqlSave(ctx context.Context) (_node *History, err e
 			}
 		}
 	}
-	if ps := huo.mutation.predicates; len(ps) > 0 {
+	if ps := _u.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
 				ps[i](selector)
 			}
 		}
 	}
-	if value, ok := huo.mutation.Amount(); ok {
+	if value, ok := _u.mutation.Amount(); ok {
 		_spec.SetField(history.FieldAmount, field.TypeInt, value)
 	}
-	if value, ok := huo.mutation.AddedAmount(); ok {
+	if value, ok := _u.mutation.AddedAmount(); ok {
 		_spec.AddField(history.FieldAmount, field.TypeInt, value)
 	}
-	if huo.mutation.UserCleared() {
+	if _u.mutation.UserCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2O,
 			Inverse: true,
@@ -333,7 +333,7 @@ func (huo *HistoryUpdateOne) sqlSave(ctx context.Context) (_node *History, err e
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
-	if nodes := huo.mutation.UserIDs(); len(nodes) > 0 {
+	if nodes := _u.mutation.UserIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2O,
 			Inverse: true,
@@ -349,11 +349,11 @@ func (huo *HistoryUpdateOne) sqlSave(ctx context.Context) (_node *History, err e
 		}
 		_spec.Edges.Add = append(_spec.Edges.Add, edge)
 	}
-	_spec.AddModifiers(huo.modifiers...)
-	_node = &History{config: huo.config}
+	_spec.AddModifiers(_u.modifiers...)
+	_node = &History{config: _u.config}
 	_spec.Assign = _node.assignValues
 	_spec.ScanValues = _node.scanValues
-	if err = sqlgraph.UpdateNode(ctx, huo.driver, _spec); err != nil {
+	if err = sqlgraph.UpdateNode(ctx, _u.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
 			err = &NotFoundError{history.Label}
 		} else if sqlgraph.IsConstraintError(err) {
@@ -361,6 +361,6 @@ func (huo *HistoryUpdateOne) sqlSave(ctx context.Context) (_node *History, err e
 		}
 		return nil, err
 	}
-	huo.mutation.done = true
+	_u.mutation.done = true
 	return _node, nil
 }

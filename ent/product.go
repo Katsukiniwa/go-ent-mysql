@@ -43,7 +43,7 @@ func (*Product) scanValues(columns []string) ([]any, error) {
 
 // assignValues assigns the values that were returned from sql.Rows (after scanning)
 // to the Product fields.
-func (pr *Product) assignValues(columns []string, values []any) error {
+func (_m *Product) assignValues(columns []string, values []any) error {
 	if m, n := len(values), len(columns); m < n {
 		return fmt.Errorf("mismatch number of scan values: %d != %d", m, n)
 	}
@@ -54,27 +54,27 @@ func (pr *Product) assignValues(columns []string, values []any) error {
 			if !ok {
 				return fmt.Errorf("unexpected type %T for field id", value)
 			}
-			pr.ID = int(value.Int64)
+			_m.ID = int(value.Int64)
 		case product.FieldStock:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field stock", values[i])
 			} else if value.Valid {
-				pr.Stock = int(value.Int64)
+				_m.Stock = int(value.Int64)
 			}
 		case product.FieldTitle:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field title", values[i])
 			} else if value.Valid {
-				pr.Title = value.String
+				_m.Title = value.String
 			}
 		case product.FieldSaleStatus:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field sale_status", values[i])
 			} else if value.Valid {
-				pr.SaleStatus = product.SaleStatus(value.String)
+				_m.SaleStatus = product.SaleStatus(value.String)
 			}
 		default:
-			pr.selectValues.Set(columns[i], values[i])
+			_m.selectValues.Set(columns[i], values[i])
 		}
 	}
 	return nil
@@ -82,41 +82,41 @@ func (pr *Product) assignValues(columns []string, values []any) error {
 
 // Value returns the ent.Value that was dynamically selected and assigned to the Product.
 // This includes values selected through modifiers, order, etc.
-func (pr *Product) Value(name string) (ent.Value, error) {
-	return pr.selectValues.Get(name)
+func (_m *Product) Value(name string) (ent.Value, error) {
+	return _m.selectValues.Get(name)
 }
 
 // Update returns a builder for updating this Product.
 // Note that you need to call Product.Unwrap() before calling this method if this Product
 // was returned from a transaction, and the transaction was committed or rolled back.
-func (pr *Product) Update() *ProductUpdateOne {
-	return NewProductClient(pr.config).UpdateOne(pr)
+func (_m *Product) Update() *ProductUpdateOne {
+	return NewProductClient(_m.config).UpdateOne(_m)
 }
 
 // Unwrap unwraps the Product entity that was returned from a transaction after it was closed,
 // so that all future queries will be executed through the driver which created the transaction.
-func (pr *Product) Unwrap() *Product {
-	_tx, ok := pr.config.driver.(*txDriver)
+func (_m *Product) Unwrap() *Product {
+	_tx, ok := _m.config.driver.(*txDriver)
 	if !ok {
 		panic("ent: Product is not a transactional entity")
 	}
-	pr.config.driver = _tx.drv
-	return pr
+	_m.config.driver = _tx.drv
+	return _m
 }
 
 // String implements the fmt.Stringer.
-func (pr *Product) String() string {
+func (_m *Product) String() string {
 	var builder strings.Builder
 	builder.WriteString("Product(")
-	builder.WriteString(fmt.Sprintf("id=%v, ", pr.ID))
+	builder.WriteString(fmt.Sprintf("id=%v, ", _m.ID))
 	builder.WriteString("stock=")
-	builder.WriteString(fmt.Sprintf("%v", pr.Stock))
+	builder.WriteString(fmt.Sprintf("%v", _m.Stock))
 	builder.WriteString(", ")
 	builder.WriteString("title=")
-	builder.WriteString(pr.Title)
+	builder.WriteString(_m.Title)
 	builder.WriteString(", ")
 	builder.WriteString("sale_status=")
-	builder.WriteString(fmt.Sprintf("%v", pr.SaleStatus))
+	builder.WriteString(fmt.Sprintf("%v", _m.SaleStatus))
 	builder.WriteByte(')')
 	return builder.String()
 }
