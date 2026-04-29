@@ -4,7 +4,7 @@ go 1.24.0
 
 require (
 	entgo.io/ent v0.14.6
-	github.com/go-sql-driver/mysql v1.9.3
+	github.com/go-sql-driver/mysql v1.10.0
 	github.com/golangci/golangci-lint v1.64.8
 )
 
@@ -195,7 +195,7 @@ require (
 
 require (
 	ariga.io/atlas v0.36.2-0.20250730182955-2c6300d0a3e1 // indirect
-	filippo.io/edwards25519 v1.1.0 // indirect
+	filippo.io/edwards25519 v1.2.0 // indirect
 	github.com/agext/levenshtein v1.2.3 // indirect
 	github.com/go-openapi/inflect v0.21.2 // indirect
 	github.com/google/go-cmp v0.7.0 // indirect
