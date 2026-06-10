@@ -1,6 +1,7 @@
 package product
 
 import (
+	"errors"
 	"fmt"
 	"time"
 )
@@ -21,6 +22,8 @@ const (
 	SaleStatusSoldOut
 )
 
+var ErrOutOfStock = errors.New("out of stock")
+
 func (p *Product) DecreaseStock(amount int64) error {
 	if p.Stock < amount {
 		return fmt.Errorf("stock is not enough: %d", p.Stock)
@@ -32,6 +35,26 @@ func (p *Product) DecreaseStock(amount int64) error {
 	}
 
 	return nil
+}
+
+func (p Product) DecreaseStockValue(amount int64) error {
+	if p.Stock < amount {
+		return fmt.Errorf("stock is not enough: %d", p.Stock)
+	}
+
+	p.Stock -= amount
+	if p.Stock == 0 {
+		p.SaleStatus = SaleStatusSoldOut
+	}
+
+	return nil
+}
+
+func (p *Product) IncreaseStock(amount int64) {
+	p.Stock += amount
+	if p.Stock > 0 {
+		p.SaleStatus = SaleStatusOnSale
+	}
 }
 
 func (p *Product) CurrentPrice(t time.Time) int64 {

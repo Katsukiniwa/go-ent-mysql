@@ -104,3 +104,28 @@ func TestProduct(t *testing.T) {
 		})
 	}
 }
+
+func TestDecrementStock_ValueReceiverDoesNotMutate(t *testing.T) {
+	p := product.Product{Stock: 5}
+	_ = p.DecreaseStockValue(2)
+	if p.Stock != 5 {
+		t.Fatalf("値レシーバなのに変わってしまった: %d", p.Stock)
+	}
+}
+
+func TestDecrementStock_PointerReceiverMutates(t *testing.T) {
+	p := &product.Product{Stock: 5}
+	if err := p.DecreaseStock(2); err != nil {
+		t.Fatal(err)
+	}
+	if p.Stock != 3 {
+		t.Fatalf("ポインタなのに変わってない: %d", p.Stock)
+	}
+}
+
+func TestDecrementStock_OutOfStock(t *testing.T) {
+	p := &product.Product{Stock: 1}
+	if err := p.DecreaseStock(2); err.Error() != "stock is not enough: 1" {
+		t.Fatalf("stock is not enough: 1 %v", err)
+	}
+}
