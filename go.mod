@@ -4,7 +4,7 @@ go 1.24.0
 
 require (
 	entgo.io/ent v0.14.6
-	github.com/go-sql-driver/mysql v1.10.0
+	github.com/go-sql-driver/mysql v1.10.1
 	github.com/golangci/golangci-lint v1.64.8
 )
 
